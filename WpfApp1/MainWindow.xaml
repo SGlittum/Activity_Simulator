@@ -1,0 +1,155 @@
+﻿<Window x:Name="mainWindow" x:Class="Activity_Simulator.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
+        xmlns:local="clr-namespace:Activity_Simulator"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="720" Width="1400" ResizeMode="NoResize">
+    <Grid x:Name="grdMain" RenderTransformOrigin="0.5,0.5">
+        <TabControl x:Name="tabMenu" HorizontalAlignment="Left" Height="670" Margin="1070,10,0,0" VerticalAlignment="Top" Width="314">
+            <TabItem Header="Simulation">
+                <Grid Background="#FFE5E5E5">
+                    <GroupBox Header="Simulation Status" HorizontalAlignment="Left" Height="160" Margin="0,10,0,0" VerticalAlignment="Top" Width="308" BorderBrush="Black">
+                        <Grid HorizontalAlignment="Left" Height="150" Margin="0,0,-2.8,-12.4" VerticalAlignment="Top" Width="298">
+                            <Label Content="Current Time" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                            <Label Content="Current Room" HorizontalAlignment="Right" Margin="0,10,46,0" VerticalAlignment="Top" RenderTransformOrigin="0.038,0.633"/>
+                            <TextBox x:Name="txtCurrentTime" Text="{Binding Simulation.CurrentTime, StringFormat='{}{0:yyyy/MM/dd hh:mm:ss}'}" HorizontalAlignment="Left" Height="23" Margin="10,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
+                            <TextBox x:Name="txtCurrentRoom" Text="{Binding Simulation.Room, Mode=OneWay, diag:PresentationTraceSources.TraceLevel=High}" HorizontalAlignment="Right" Height="23" Margin="0,41,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
+                            <TextBox x:Name="txtCurrentActivity" Text="{Binding Simulation.Activity, Mode=OneWay}" HorizontalAlignment="Left" Height="23" Margin="10,0,0,27" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="120" IsReadOnly="True"/>
+                            <Label Content="Current Activity" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top"/>
+                            <TextBox x:Name="txtCurrentPatterSts" HorizontalAlignment="Right" Height="23" Margin="0,0,10,27" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="120" IsReadOnly="True"/>
+                            <Label Content="Current Pattern Status" Margin="168,70,5,0" VerticalAlignment="Top" RenderTransformOrigin="0.402,0.695"/>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Header="Simulation Control" HorizontalAlignment="Left" Height="339" Margin="0,293,0,0" VerticalAlignment="Top" Width="308" BorderBrush="Black">
+                        <Grid HorizontalAlignment="Left" Height="329" Margin="0,0,-2.8,-12.2" VerticalAlignment="Top" Width="298">
+                            <Button x:Name="btnStartSimulation" Content="Start Simulation" HorizontalAlignment="Left" Margin="10,77,0,0" VerticalAlignment="Top" Width="95" Click="btnStartSimulation_Click"/>
+                            <Label Content="Replay Time [min]" HorizontalAlignment="Left" Margin="10,265,0,0" VerticalAlignment="Top" Width="109"/>
+                            <Button Content="Replay" HorizontalAlignment="Left" Margin="213,291,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_4"/>
+                            <Button Content="Resume" HorizontalAlignment="Left" Margin="193,184,0,0" VerticalAlignment="Top" Width="95" Click="Button_Click_2"/>
+                            <Button Content="Pause" HorizontalAlignment="Left" Margin="10,184,0,0" VerticalAlignment="Top" Width="95" Click="Button_Click_1"/>
+                            <Slider HorizontalAlignment="Left" Value="{Binding Simulation.SimulationSpeed, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" Margin="10,226,0,0" VerticalAlignment="Top" Width="95" Height="19" Minimum="1" Maximum="1000" Background="#FF484141"/>
+                            <TextBox HorizontalAlignment="Left" Height="23" Margin="10,291,0,0" TextWrapping="Wrap" Text="{Binding Simulation.ReplayTime, Mode=TwoWay}" VerticalAlignment="Top" Width="95"/>
+                            <ComboBox x:Name="cmbDataset" HorizontalAlignment="Left" VerticalAlignment="Top" Width="95" Margin="10,27,0,0" Text="{Binding Simulation.DataSetIndex, Mode=OneWayToSource}" SelectionChanged="cmbDataset_SelectionChanged" SelectedIndex="0"/>
+                            <TextBox x:Name="txtDatasetStartTime" HorizontalAlignment="Left" Height="23" Margin="168,27,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+                            <Label Content="Dataset" HorizontalAlignment="Left" Margin="10,1,0,0" VerticalAlignment="Top" Width="73"/>
+                            <Label Content="Start Time" HorizontalAlignment="Left" Margin="168,1,0,0" VerticalAlignment="Top"/>
+                            <TextBox x:Name="txtDatasetEndTime" HorizontalAlignment="Left" Height="23" Margin="168,73,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+                            <Label Content="End Time" HorizontalAlignment="Left" Margin="168,47,0,0" VerticalAlignment="Top"/>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Header="Import and Export" HorizontalAlignment="Left" Height="118" Margin="0,175,0,0" VerticalAlignment="Top" Width="308" BorderBrush="Black">
+                        <Grid HorizontalAlignment="Left" Height="100" Margin="0,0,-12.8,-4" VerticalAlignment="Top" Width="308">
+                            <Button x:Name="btnImport" Content="Import" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Width="95" Click="btnImport_Click"/>
+                            <Button x:Name="btnExport" Content="Export" HorizontalAlignment="Left" Margin="0,71,0,0" VerticalAlignment="Top" Width="95" Click="btnExport_Click"/>
+                            <TextBox HorizontalAlignment="Left" Height="23" Margin="166,71,0,0" TextWrapping="Wrap" Text="{Binding ImportExport.ExportFileName}" VerticalAlignment="Top" Width="120"/>
+                            <Label Content="Export Filename" HorizontalAlignment="Left" Margin="166,47,0,0" VerticalAlignment="Top" Width="99"/>
+                        </Grid>
+                    </GroupBox>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Sequence Addition">
+                <Grid Background="#FFE5E5E5">
+                    <Button Content="Randomize" HorizontalAlignment="Left" Margin="169,118,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_3"/>
+                    <TextBox x:Name="txtNewStartTime" HorizontalAlignment="Left" Height="23" Margin="83,36,0,0" TextWrapping="Wrap" Text="{Binding Simulation.NewStartTime, StringFormat='{}{0:hh:mm:ss}'}" VerticalAlignment="Top" Width="59"/>
+                    <TextBox x:Name="txtNewEndTime" HorizontalAlignment="Left" Height="23" Margin="242,36,0,0" TextWrapping="Wrap" Text="{Binding Simulation.NewEndTime, StringFormat='{}{0:hh:mm:ss}'}" VerticalAlignment="Top" Width="59"/>
+                    <Button Content="Confirm Selection" HorizontalAlignment="Left" Margin="10,118,0,0" VerticalAlignment="Top" Width="103" Click="Button_Click"/>
+                    <Label Content="Start Time" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+                    <Label Content="End Time" HorizontalAlignment="Left" Margin="169,10,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Room" HorizontalAlignment="Left" Margin="10,64,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Activity" HorizontalAlignment="Left" Margin="169,64,0,0" VerticalAlignment="Top"/>
+                    <TextBox x:Name="txtNewStartDate" HorizontalAlignment="Left" Height="23" Margin="10,36,0,0" TextWrapping="Wrap" Text="{Binding Simulation.NewStartDate, StringFormat='{}{0:yyyy/MM/dd}'}" VerticalAlignment="Top" Width="68"/>
+                    <TextBox x:Name="txtNewEndDate" HorizontalAlignment="Left" Height="23" Margin="169,36,0,0" TextWrapping="Wrap" Text="{Binding Simulation.NewEndDate, StringFormat='{}{0:yyyy/MM/dd}'}" VerticalAlignment="Top" Width="68"/>
+                    <ComboBox x:Name="cmbRoom" HorizontalAlignment="Left" Margin="10,90,0,0" VerticalAlignment="Top" Width="123" Text="{Binding Simulation.NewRoom, Mode=OneWayToSource}" SelectionChanged="cmbRoom_SelectionChanged"/>
+                    <ComboBox x:Name="cmbActivity" HorizontalAlignment="Left" Margin="169,90,0,0" Text="{Binding Simulation.NewActivity, Mode=OneWayToSource}" VerticalAlignment="Top" Width="123"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Configuration">
+                <Grid Background="#FFE5E5E5">
+                    <GroupBox Header="Person" HorizontalAlignment="Left" Height="128" VerticalAlignment="Top" Width="308" BorderBrush="Black">
+                        <Grid HorizontalAlignment="Left" Height="118" Margin="0,0,-2.8,-12.4" VerticalAlignment="Top" Width="298">
+                            <Label Content="Gender" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="70"/>
+                            <Label Content="Age" HorizontalAlignment="Left" Margin="168,10,0,0" VerticalAlignment="Top"/>
+                            <ComboBox HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Width="120">
+                                <ComboBoxItem Content="Male"/>
+                            </ComboBox>
+                            <ComboBox HorizontalAlignment="Left" Margin="168,41,0,0" VerticalAlignment="Top" Width="120">
+                                <ComboBoxItem Content="60"/>
+                            </ComboBox>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox Header="Activity Positions" HorizontalAlignment="Left" Height="465" Margin="0,133,0,0" VerticalAlignment="Top" Width="308" BorderBrush="Black">
+                        <Grid HorizontalAlignment="Left" Height="455" Margin="0,0,-2.8,-12.6" VerticalAlignment="Top" Width="298">
+                            <TextBox Text="{Binding ConfigHandler.BedCoords}" x:Name="txtBedCoords" HorizontalAlignment="Left" Height="23" Margin="0,72,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
+                            <Label Content="Bed" HorizontalAlignment="Left" Margin="0,46,0,0" VerticalAlignment="Top"/>
+                            <Label Content="Toilet" HorizontalAlignment="Left" Margin="178,46,0,0" VerticalAlignment="Top"/>
+                            <TextBox Text="{Binding ConfigHandler.ToiletCoords}" x:Name="txtToiletCoords" HorizontalAlignment="Left" Height="23" Margin="178,72,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
+                            <TextBox Text="{Binding ConfigHandler.ShowerCoords}" x:Name="txtShowerCoords" HorizontalAlignment="Left" Height="23" Margin="0,131,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
+                            <Label Content="Shower Area" HorizontalAlignment="Left" Margin="0,105,0,0" VerticalAlignment="Top"/>
+                            <Label Content="Dining Table" HorizontalAlignment="Left" Margin="178,105,0,0" VerticalAlignment="Top"/>
+                            <TextBox Text="{Binding ConfigHandler.DiningCoords}" x:Name="txtDiningCoords" HorizontalAlignment="Left" Height="23" Margin="178,131,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
+                            <Label Content="Basin" HorizontalAlignment="Left" Margin="0,164,0,0" VerticalAlignment="Top"/>
+                            <TextBox Text="{Binding ConfigHandler.BasinCoords}" x:Name="txtBasinCoords" HorizontalAlignment="Left" Height="23" Margin="0,190,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
+                            <Label Content="Sofa" HorizontalAlignment="Left" Margin="178,164,0,0" VerticalAlignment="Top"/>
+                            <TextBox Text="{Binding ConfigHandler.SofaCoords}" x:Name="txtSofaCoords" HorizontalAlignment="Left" Height="23" Margin="178,190,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
+                            <Label Content="Entrance" HorizontalAlignment="Left" Margin="0,223,0,0" VerticalAlignment="Top"/>
+                            <TextBox Text="{Binding ConfigHandler.EntranceCoords}" x:Name="txtEntranceCoords" HorizontalAlignment="Left" Height="23" Margin="0,248,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
+                            <CheckBox x:Name="chckConfigEdit" Content="Activate Editing" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top"/>
+                            <TextBox HorizontalAlignment="Left" Height="23" Margin="0,314,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+                            <Label Content="Doors" HorizontalAlignment="Left" Margin="0,288,0,0" VerticalAlignment="Top"/>
+                        </Grid>
+                    </GroupBox>
+                    <Button x:Name="btnSaveConfig" Content="Save Configuration" HorizontalAlignment="Left" Margin="0,613,0,0" VerticalAlignment="Top" Width="113" Click="btnSaveConfig_Click"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Canvas x:Name="canvasDrawing" Background="Transparent" HorizontalAlignment="Left" Height="670" VerticalAlignment="Top" Width="1055" Margin="10,10,0,0" MouseDown="canvasDrawing_MouseDown">
+            <Rectangle Fill="SandyBrown" Height="10" Width="1055" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Rectangle Fill="SandyBrown" Height="670" Width="10" HorizontalAlignment="Left" VerticalAlignment="Top"></Rectangle>
+            <Rectangle Fill="SandyBrown" Height="670" Width="10" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="1046"></Rectangle>
+            <Rectangle Fill="SandyBrown" Height="10" Width="1055" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Top="661"/>
+            <Rectangle Fill="SandyBrown" Height="300" Width="10" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="328"></Rectangle>
+            <Rectangle Fill="SandyBrown" Height="300" Width="10" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="328" Canvas.Top="370"></Rectangle>
+            <Rectangle Fill="SandyBrown" Height="300" Width="10" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="630"></Rectangle>
+            <Rectangle Fill="SandyBrown" Height="300" Width="10" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="630" Canvas.Top="370"></Rectangle>
+            <Rectangle Fill="SandyBrown" Height="300" Width="10" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="850"></Rectangle>
+            <Rectangle Fill="SandyBrown" Height="300" Width="10" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="850" Canvas.Top="370"></Rectangle>
+            <Rectangle Fill="Gold" Height="100" Width="76" Canvas.Top="10" Canvas.Left="10" Stroke="Black"/>
+            <Label x:Name="lblKitchen" Canvas.Left="142" Canvas.Top="562" Height="44" Width="112" Content="Kitchen" FontSize="30" RenderTransformOrigin="1.49,0.538"></Label>
+            <Label x:Name="lblKitchen_Copy" Canvas.Left="392" Canvas.Top="412" Height="62" Width="183" Content="Living Room" FontSize="30"/>
+            <Label x:Name="lblKitchen_Copy1" Canvas.Left="684" Canvas.Top="182" Height="48" Width="140" Content="Bedroom" FontSize="30"/>
+            <Label x:Name="lblKitchen_Copy2" Canvas.Left="884" Canvas.Top="53" Height="42" Width="141" Content="Bathroom" FontSize="30"/>
+            <Rectangle Fill="Silver" Height="88" Width="76" Canvas.Top="110" Canvas.Left="10" Stroke="Black"/>
+            <Rectangle Fill="Silver" Height="170" Width="76" Canvas.Top="198" Canvas.Left="10" Stroke="Black"/>
+            <Rectangle Fill="Silver" Height="88" Width="76" Canvas.Top="368" Canvas.Left="10" Stroke="Black"/>
+            <Rectangle Fill="Gold" Height="205" Width="76" Canvas.Top="456" Canvas.Left="10" Stroke="Black"/>
+            <Rectangle x:Name="KitchenDiningTable" Fill="Gold" Height="160" Width="76" Canvas.Top="73" Canvas.Left="192" Stroke="Black"/>
+            <Ellipse x:Name="ellipsePerson_Copy" Fill="Gold" Height="36" Width="36" RenderTransformOrigin="4.2,6.926" Canvas.Left="268" Canvas.Top="110" Stroke="Black"/>
+            <Ellipse x:Name="ellipsePerson_Copy1" Fill="Gold" Height="36" Width="36" RenderTransformOrigin="4.2,6.926" Canvas.Left="268" Canvas.Top="162" Stroke="Black"/>
+            <Ellipse x:Name="ellipsePerson_Copy2" Fill="Gold" Height="36" Width="36" RenderTransformOrigin="4.2,6.926" Canvas.Left="156" Canvas.Top="162" Stroke="Black"/>
+            <Ellipse x:Name="ellipsePerson_Copy3" Fill="Gold" Height="36" Width="36" RenderTransformOrigin="4.2,6.926" Canvas.Left="156" Canvas.Top="110" Stroke="Black"/>
+            <Rectangle x:Name="LivingRoomSofa" Fill="Gold" Height="75" Width="164" Canvas.Top="53" Canvas.Left="411"/>
+            <Rectangle Fill="BlueViolet" Height="35" Width="164" Canvas.Top="18" Canvas.Left="411"/>
+            <Rectangle Fill="BlueViolet" Height="75" Width="35" Canvas.Top="53" Canvas.Left="376"/>
+            <Rectangle Fill="BlueViolet" Height="75" Width="35" Canvas.Top="53" Canvas.Left="575"/>
+            <Rectangle Fill="Black" Height="23" Width="133" Canvas.Top="277" Canvas.Left="497"/>
+            <Label x:Name="lblKitchen_Copy3" Canvas.Left="425" Canvas.Top="607" Height="47" Width="126" Content="Entrance" FontSize="30" RenderTransformOrigin="1.49,0.538"/>
+            <Rectangle x:Name="BedroomBed" Height="204" Width="99" Canvas.Top="450" Canvas.Left="746" Stroke="Black" Fill="#FF3B589D"/>
+            <Rectangle Fill="Gold" Height="36" Width="82" Canvas.Top="610" Canvas.Left="756"/>
+            <Ellipse x:Name="BathroomToilet" Fill="#FFDCD9CB" Height="58" Width="123" RenderTransformOrigin="4.2,6.926" Canvas.Left="923" Canvas.Top="162" Stroke="Black"/>
+            <Label x:Name="lblKitchen_Copy4" Canvas.Left="770" Canvas.Top="466" Height="37" Width="54" Content="Bed" FontSize="20" RenderTransformOrigin="0.5,0.5">
+            </Label>
+            <Label x:Name="lblKitchen_Copy5" Canvas.Left="537" Canvas.Top="305" Height="37" Width="54" Content="TV" FontSize="20" RenderTransformOrigin="0.5,0.5">
+            </Label>
+            <Label x:Name="lblKitchen_Copy6" Canvas.Left="961" Canvas.Top="220" Height="37" Width="54" Content="Toilet" FontSize="20" RenderTransformOrigin="0.5,0.5"/>
+            <Label x:Name="lblKitchen_Copy7" Canvas.Left="17" Canvas.Top="135" Height="37" Width="54" Content="Sink" FontSize="20" RenderTransformOrigin="-0.187,0.578"/>
+            <Label x:Name="lblKitchen_Copy8" Canvas.Left="17" Canvas.Top="399" Height="37" Width="69" Content="Stove" FontSize="20" RenderTransformOrigin="0.5,0.5"/>
+            <Label x:Name="lblKitchen_Copy9" Canvas.Left="497" Canvas.Top="73" Height="37" Width="54" Content="Sofa" FontSize="20" RenderTransformOrigin="0.5,0.5"/>
+            <Rectangle x:Name="BathroomShower" Fill="#FFB3EBE8" Height="124" Width="185" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="861" Canvas.Top="536"/>
+            <Label x:Name="lblKitchen_Copy10" Canvas.Left="894" Canvas.Top="583" Height="37" Width="131" Content="Shower Area" FontSize="20" RenderTransformOrigin="0.5,0.5"/>
+            <Ellipse x:Name="ellipsePerson" Fill="DarkGreen" Height="34" Width="34" RenderTransformOrigin="0.431,0.565" Canvas.Left="{Binding Simulation.PersonPositionX}" Canvas.Top="{Binding Simulation.PersonPositionY}"/>
+        </Canvas>
+    </Grid>
+</Window>
