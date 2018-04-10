@@ -47,6 +47,7 @@ namespace Activity_Simulator
         private void btnStartSimulation_Click(object sender, RoutedEventArgs e)
         {
             viewModel.StartSimulation();
+            FillSequenceTimeTextboxes();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -158,6 +159,20 @@ namespace Activity_Simulator
         private void btnSaveConfig_Click(object sender, RoutedEventArgs e)
         {
             viewModel.SaveConfig();
+        }
+        private void FillSequenceTimeTextboxes()
+        {
+            DateTime currentTime;
+            currentTime = viewModel.GetFirstDateTime();
+            txtNewStartDate.Text = currentTime.Date.ToString("yyyy/MM/dd");
+            txtNewEndDate.Text = currentTime.Date.ToString("yyyy/MM/dd");
+            txtNewStartTime.Text = currentTime.TimeOfDay.ToString();
+            txtNewEndTime.Text = currentTime.TimeOfDay.ToString();
+        }
+
+        private void btnNextActivity_Click(object sender, RoutedEventArgs e)
+        {
+            viewModel.NextActivity();
         }
     }
 }

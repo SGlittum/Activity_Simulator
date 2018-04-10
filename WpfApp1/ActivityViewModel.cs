@@ -89,6 +89,14 @@ namespace Activity_Simulator
         {
             configHandler.SaveConfigChanges();
         }
+        public DateTime GetFirstDateTime()
+        {
+            return simulation.GetFirstDateTime();
+        }
+        public void NextActivity()
+        {
+            simulation.nextActivity = true;
+        }
         public static void ShowMessageBox(string msg, string caption)
         {
             MainWindow.ShowMessageBox(msg, caption);

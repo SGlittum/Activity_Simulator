@@ -140,7 +140,7 @@ namespace Activity_Simulator
                 OnPropertyChanged("PersonPositionY");
             }
         }
-
+        public bool nextActivity;
         public int listIndex;
 
         public void StartSimulationThread()
@@ -151,30 +151,32 @@ namespace Activity_Simulator
 
         public void StartSimulation()
         {
-            listIndex = 3;
+            listIndex = 0;
             activityList = dbHandler.GetActivityData(DataSetIndex);
             SetInitialPosition(activityList[listIndex].Activity);
             CurrentTime = activityList[listIndex].StartTime.AddSeconds(-1);
             while (1==1)
             {
                 CurrentTime = CurrentTime.AddSeconds(1);
-                if(CurrentTime < activityList[listIndex].EndTime)
+                if(CurrentTime < activityList[listIndex+1].StartTime)
                 {
+                    if(nextActivity == true)
+                    {
+                        SkipToNextActivity();
+                        Thread animationCaller = new Thread(new ThreadStart(AnimateMovement));
+                        animationCaller.Start();
+                        CurrentTime = activityList[listIndex].StartTime;
+                    }
                     StartTime = activityList[listIndex].StartTime;
                     EndTime = activityList[listIndex].EndTime;
                     Room = activityList[listIndex].Room;
                     Activity = activityList[listIndex].Activity;
                 }
-                else if(CurrentTime >= activityList[listIndex].EndTime && CurrentTime < activityList[listIndex+1].StartTime)
-                {
-                    Room = "";
-                    Activity = "";
-                }
                 else
                 {
-                    listIndex++;
                     Thread animationCaller = new Thread(new ThreadStart(AnimateMovement));
                     animationCaller.Start();
+                    listIndex++;
                 }
                 if (SimulationSuspended == true)
                 {
@@ -200,7 +202,19 @@ namespace Activity_Simulator
                 }
             }
         }
-        public void SetInitialPosition(string activity)
+        private void SkipToNextActivity()
+        {
+            for(int i=listIndex;i<activityList.Count;i++)
+            {
+                if(activityList[i].Activity != activityList[listIndex].Activity)
+                {
+                    listIndex = i;
+                    nextActivity = false;
+                    break;
+                }
+            }
+        }
+        private void SetInitialPosition(string activity)
         {
             double xPos = 0;
             double yPos = 0;
@@ -218,7 +232,7 @@ namespace Activity_Simulator
             PersonPositionX = xPos;
             PersonPositionY = yPos;
         }
-        public void AnimateMovement()
+        private void AnimateMovement()
         {
             string currentRoom = activityList[listIndex - 1].Room;
             string targetRoom = activityList[listIndex].Room;
@@ -337,7 +351,22 @@ namespace Activity_Simulator
         }
         public void UpdateActivityList()
         {
-            activityList = sequence.AddSequenceToList(activityList, listIndex, NewStartDate, NewEndDate, NewStartTime, NewEndTime, NewRoom, NewActivity);
+            if (NewStartDate.Date + NewStartTime.TimeOfDay < CurrentTime)
+            {
+                ActivityViewModel.ShowMessageBox("Start time must be later than current time", "Error entering sequence");
+            }
+            else if (NewStartDate.Date + NewStartTime.TimeOfDay > NewEndDate.Date + NewEndTime.TimeOfDay)
+            {
+                ActivityViewModel.ShowMessageBox("Start time can not be later than end time", "Error entering sequence");
+            }
+            else if (NewActivity == "" || NewRoom == "")
+            {
+                ActivityViewModel.ShowMessageBox("Enter a room and activity combo", "Error entering sequence");
+            }
+            else
+            {
+                activityList = sequence.AddSequenceToList(activityList, listIndex, NewStartDate, NewEndDate, NewStartTime, NewEndTime, NewRoom, NewActivity);
+            }
         }
         public void RandomizeSequence()
         {
@@ -397,6 +426,10 @@ namespace Activity_Simulator
         {
             ImportExport export = new ImportExport();
             export.ExportToCSV(DataSetIndex, activityList);
+        }
+        public DateTime GetFirstDateTime()
+        {
+            return dbHandler.GetActivityData(DataSetIndex)[listIndex].StartTime;
         }
     }
 }

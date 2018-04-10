@@ -44,6 +44,26 @@ namespace Activity_Simulator
                     }
                     break;
                 }
+                else if(StartDateTime > activityList[i].EndTime && StartDateTime < activityList[i+1].StartTime)
+                {
+                    DataTypes dataTypes = new DataTypes();
+                    dataTypes.StartTime = StartDateTime;
+                    dataTypes.EndTime = EndDateTime;
+                    dataTypes.Room = Room;
+                    dataTypes.Activity = Activity;
+                    activityList.Insert(i+1, dataTypes);
+                    for (int j = i + 2; j < activityList.Count;)
+                    {
+                        if (activityList[j].StartTime <= EndDateTime)
+                        {
+                            activityList.RemoveAt(j);
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                }
             }
             editedList = activityList;
             return editedList;

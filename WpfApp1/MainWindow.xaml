@@ -38,6 +38,7 @@
                             <Label Content="Start Time" HorizontalAlignment="Left" Margin="168,1,0,0" VerticalAlignment="Top"/>
                             <TextBox x:Name="txtDatasetEndTime" HorizontalAlignment="Left" Height="23" Margin="168,73,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
                             <Label Content="End Time" HorizontalAlignment="Left" Margin="168,47,0,0" VerticalAlignment="Top"/>
+                            <Button x:Name="btnNextActivity" Content="Next Activity" Margin="193,225,10,84" Click="btnNextActivity_Click"/>
                         </Grid>
                     </GroupBox>
                     <GroupBox Header="Import and Export" HorizontalAlignment="Left" Height="118" Margin="0,175,0,0" VerticalAlignment="Top" Width="308" BorderBrush="Black">
