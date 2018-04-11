@@ -16,6 +16,7 @@ namespace Activity_Simulator
         private string _basinCoords;
         private string _sofaCoords;
         private string _entranceCoords;
+        private string _doorsCoords;
         public string BedCoords
         {
             get
@@ -100,6 +101,18 @@ namespace Activity_Simulator
                 OnPropertyChanged("EntranceCoords");
             }
         }
+        public string DoorsCoords
+        {
+            get
+            {
+                return _doorsCoords;
+            }
+            set
+            {
+                _doorsCoords = value;
+                OnPropertyChanged("DoorsCoords");
+            }
+        }
         public void AddActivityLocations()
         {
             DatabaseHandler dbHandler = new DatabaseHandler();
@@ -178,6 +191,7 @@ namespace Activity_Simulator
             sofaY = Convert.ToDouble(SofaCoords.Split(separator)[1]);
             entranceX = Convert.ToDouble(EntranceCoords.Split(separator)[0]);
             entranceY = Convert.ToDouble(EntranceCoords.Split(separator)[1]);
+            doorsY = Convert.ToDouble(DoorsCoords.Split(separator)[1]);
             AddActivityCoords(bedX, nameof(bedX));
             AddActivityCoords(bedY, nameof(bedY));
             AddActivityCoords(toiletX, nameof(toiletX));
@@ -196,6 +210,7 @@ namespace Activity_Simulator
             try
             {
                 dbHandler.SaveConfigIdToDatabase(1);
+                dbHandler.SaveDoorsLocationToDatabase(doorsY, 1);
                 for (int i = 0; i < configPositionList.Count; i++)
                 {
                     dbHandler.SaveConfigLocationToDatabase(configPositionList[i].Activity, configPositionList[i].ActivityLocation, configPositionList[i].XPos, configPositionList[i].YPos, 1);

@@ -181,5 +181,14 @@ namespace Activity_Simulator
             cmd.ExecuteNonQuery();
             con.Close();
         }
+        public void SaveDoorsLocationToDatabase(double doorsY, int configId)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["DatabaseConnectionString"].ConnectionString;
+            SqlConnection con = new SqlConnection(connectionString);
+            string insertSQL = string.Format("INSERT INTO DoorsPosition (VerticalPosition, ConfigId) VALUES ({0}, {1})", Math.Round(doorsY), configId);
+            con.Open();
+            SqlCommand cmd = new SqlCommand(insertSQL, con);
+            con.Close();
+        }
     }
 }

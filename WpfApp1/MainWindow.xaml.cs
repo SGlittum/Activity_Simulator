@@ -153,6 +153,10 @@ namespace Activity_Simulator
                 {
                     txtEntranceCoords.Text = Mouse.GetPosition(canvasDrawing).ToString();
                 }
+                else if(txtDoorsCoords.IsFocused == true)
+                {
+                    txtDoorsCoords.Text = Mouse.GetPosition(canvasDrawing).ToString();
+                }
             }
         }
 
