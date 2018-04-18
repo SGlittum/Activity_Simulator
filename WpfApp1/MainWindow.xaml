@@ -15,7 +15,7 @@
                         <Grid HorizontalAlignment="Left" Height="150" Margin="0,0,-2.8,-12.4" VerticalAlignment="Top" Width="298">
                             <Label Content="Current Time" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
                             <Label Content="Current Room" HorizontalAlignment="Right" Margin="0,10,46,0" VerticalAlignment="Top" RenderTransformOrigin="0.038,0.633"/>
-                            <TextBox x:Name="txtCurrentTime" Text="{Binding Simulation.CurrentTime, StringFormat='{}{0:yyyy/MM/dd hh:mm:ss}'}" HorizontalAlignment="Left" Height="23" Margin="10,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
+                            <TextBox x:Name="txtCurrentTime" Text="{Binding Simulation.CurrentTime, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" HorizontalAlignment="Left" Height="23" Margin="10,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
                             <TextBox x:Name="txtCurrentRoom" Text="{Binding Simulation.Room, Mode=OneWay, diag:PresentationTraceSources.TraceLevel=High}" HorizontalAlignment="Right" Height="23" Margin="0,41,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
                             <TextBox x:Name="txtCurrentActivity" Text="{Binding Simulation.Activity, Mode=OneWay}" HorizontalAlignment="Left" Height="23" Margin="10,0,0,27" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="120" IsReadOnly="True"/>
                             <Label Content="Current Activity" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top"/>
@@ -61,8 +61,8 @@
                     <Label Content="End Time" HorizontalAlignment="Left" Margin="169,10,0,0" VerticalAlignment="Top"/>
                     <Label Content="Room" HorizontalAlignment="Left" Margin="10,64,0,0" VerticalAlignment="Top"/>
                     <Label Content="Activity" HorizontalAlignment="Left" Margin="169,64,0,0" VerticalAlignment="Top"/>
-                    <TextBox x:Name="txtNewStartDate" HorizontalAlignment="Left" Height="23" Margin="10,36,0,0" TextWrapping="Wrap" Text="{Binding Simulation.NewStartDate, StringFormat='{}{0:yyyy/MM/dd}'}" VerticalAlignment="Top" Width="68"/>
-                    <TextBox x:Name="txtNewEndDate" HorizontalAlignment="Left" Height="23" Margin="169,36,0,0" TextWrapping="Wrap" Text="{Binding Simulation.NewEndDate, StringFormat='{}{0:yyyy/MM/dd}'}" VerticalAlignment="Top" Width="68"/>
+                    <TextBox x:Name="txtNewStartDate" HorizontalAlignment="Left" Height="23" Margin="10,36,0,0" TextWrapping="Wrap" Text="{Binding Simulation.NewStartDate, StringFormat='{}{0:yyyy-MM-dd}'}" VerticalAlignment="Top" Width="68"/>
+                    <TextBox x:Name="txtNewEndDate" HorizontalAlignment="Left" Height="23" Margin="169,36,0,0" TextWrapping="Wrap" Text="{Binding Simulation.NewEndDate, StringFormat='{}{0:yyyy-MM-dd}'}" VerticalAlignment="Top" Width="68"/>
                     <ComboBox x:Name="cmbRoom" HorizontalAlignment="Left" Margin="10,90,0,0" VerticalAlignment="Top" Width="123" Text="{Binding Simulation.NewRoom, Mode=OneWayToSource}" SelectionChanged="cmbRoom_SelectionChanged"/>
                     <ComboBox x:Name="cmbActivity" HorizontalAlignment="Left" Margin="169,90,0,0" Text="{Binding Simulation.NewActivity, Mode=OneWayToSource}" VerticalAlignment="Top" Width="123"/>
                 </Grid>
@@ -100,9 +100,9 @@
                             <CheckBox x:Name="chckConfigEdit" Content="Activate Editing" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top"/>
                             <TextBox x:Name="txtDoorsCoords" Text="{Binding ConfigHandler.DoorsCoords}" HorizontalAlignment="Left" Height="23" Margin="178,248,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
                             <Label Content="Doors" HorizontalAlignment="Left" Margin="178,223,0,0" VerticalAlignment="Top"/>
+                            <Button x:Name="btnSaveConfig" Content="Save Configuration" HorizontalAlignment="Left" Margin="0,290,0,0" VerticalAlignment="Top" Width="113" Click="btnSaveConfig_Click"/>
                         </Grid>
                     </GroupBox>
-                    <Button x:Name="btnSaveConfig" Content="Save Configuration" HorizontalAlignment="Left" Margin="0,613,0,0" VerticalAlignment="Top" Width="113" Click="btnSaveConfig_Click"/>
                 </Grid>
             </TabItem>
         </TabControl>

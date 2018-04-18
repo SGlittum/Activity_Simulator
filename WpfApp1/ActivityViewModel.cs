@@ -97,6 +97,10 @@ namespace Activity_Simulator
         {
             simulation.nextActivity = true;
         }
+        public void Import(int previousDatasetIndex)
+        {
+            importExport.ImportFromCSV(previousDatasetIndex);
+        }
         public static void ShowMessageBox(string msg, string caption)
         {
             MainWindow.ShowMessageBox(msg, caption);

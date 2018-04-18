@@ -78,9 +78,29 @@ namespace Activity_Simulator
             }
             System.IO.File.WriteAllText(string.Format(@"{0}"+"\\test.csv", folderName), csv);
         }
-        public void ImportFromCSV()
+        public void ImportFromCSV(int previousDatasetIndex)
         {
+            DatabaseHandler dbHandler = new DatabaseHandler();
+            List<DataTypes> importedList = new List<DataTypes>();
+            SelectFilePath();
+            using (var reader = new StreamReader(filePath))
+            {
+                while(!reader.EndOfStream)
+                {
+                    DataTypes dataTypes = new DataTypes();
+                    var line = reader.ReadLine();
+                    var values = line.Split(';');
+                    dataTypes.StartTime = Convert.ToDateTime(values[0]);
+                    dataTypes.EndTime = Convert.ToDateTime(values[1]);
+                    dataTypes.Location = Convert.ToString(values[2]);
+                    dataTypes.Room = Convert.ToString(values[3]);
+                    dataTypes.Activity = Convert.ToString(values[4]);
 
+                    importedList.Add(dataTypes);
+                }
+            }
+            dbHandler.SaveStartTimeAndEndTime(importedList, previousDatasetIndex);
+            dbHandler.SaveActivityData(importedList, previousDatasetIndex);
         }
     }
 }

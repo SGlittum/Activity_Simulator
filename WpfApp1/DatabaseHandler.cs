@@ -190,5 +190,42 @@ namespace Activity_Simulator
             SqlCommand cmd = new SqlCommand(insertSQL, con);
             con.Close();
         }
+        public void SaveStartTimeAndEndTime(List<DataTypes> importedList, int datasetIndex)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["DatabaseConnectionString"].ConnectionString;
+            SqlConnection con = new SqlConnection(connectionString);
+            string insertSQL = string.Format("INSERT INTO DataSet (DataSetIndex, StartTime, EndTime) VALUES ({0}, '{1:u}', '{2:u}')", datasetIndex+1, importedList[0].StartTime, importedList[importedList.Count - 1].EndTime);
+            try
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand(insertSQL, con);
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+            catch(Exception ex)
+            {
+                ActivityViewModel.ShowMessageBox(ex.ToString(), "Error");
+            }
+        }
+        public void SaveActivityData(List<DataTypes> importedList, int previousDatasetIndex)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["DatabaseConnectionString"].ConnectionString;
+            SqlConnection con = new SqlConnection(connectionString);
+            try
+            {
+                con.Open();
+                for (int i = 0;i<importedList.Count;i++)
+                {
+                    string insertSQL = string.Format("INSERT INTO ActivityData (StartTime, EndTime, SensorLocationId, ActivityId, DatasetIndex) VALUES ('{0:u}', '{1:u}', (SELECT SensorLocationId FROM SensorLocation WHERE Location = '{2}'), (SELECT ActivityId FROM Activity WHERE Activity = '{3}'), {4})", importedList[i].StartTime, importedList[i].EndTime, importedList[i].Location, importedList[i].Activity, previousDatasetIndex+1);
+                    SqlCommand cmd = new SqlCommand(insertSQL, con);
+                    cmd.ExecuteNonQuery();
+                }
+                con.Close();
+            }
+            catch(Exception ex)
+            {
+                ActivityViewModel.ShowMessageBox(ex.ToString(), "Error");
+            }
+        }
     }
 }

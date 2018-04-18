@@ -33,6 +33,9 @@ namespace Activity_Simulator
         }
         private void btnImport_Click(object sender, RoutedEventArgs e)
         {
+            int previousDatasetIndex = Convert.ToInt16(cmbDataset.Items[cmbDataset.Items.Count-1]);
+            viewModel.Import(previousDatasetIndex);
+            cmbDataset.Items.Add(previousDatasetIndex + 1);
         }
 
         private void btnExport_Click(object sender, RoutedEventArgs e)
@@ -168,8 +171,8 @@ namespace Activity_Simulator
         {
             DateTime currentTime;
             currentTime = viewModel.GetFirstDateTime();
-            txtNewStartDate.Text = currentTime.Date.ToString("yyyy/MM/dd");
-            txtNewEndDate.Text = currentTime.Date.ToString("yyyy/MM/dd");
+            txtNewStartDate.Text = currentTime.Date.ToString("yyyy-MM-dd");
+            txtNewEndDate.Text = currentTime.Date.ToString("yyyy-MM-dd");
             txtNewStartTime.Text = currentTime.TimeOfDay.ToString();
             txtNewEndTime.Text = currentTime.TimeOfDay.ToString();
         }
