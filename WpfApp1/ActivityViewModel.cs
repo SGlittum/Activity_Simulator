@@ -101,6 +101,14 @@ namespace Activity_Simulator
         {
             importExport.ImportFromCSV(previousDatasetIndex);
         }
+        public void ActivateFastmode()
+        {
+            simulation.fastMode = true;
+        }
+        public void DeactivateFastmode()
+        {
+            simulation.fastMode = false;
+        }
         public static void ShowMessageBox(string msg, string caption)
         {
             MainWindow.ShowMessageBox(msg, caption);

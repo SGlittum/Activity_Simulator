@@ -10,7 +10,7 @@ namespace Activity_Simulator
     class Person : ObservableObject
     {
 
-        public List<Coordinates> MovePerson(string currentRoom, string targetRoom, string targetActivity, int configId)
+        public List<Coordinates> MovePerson(string targetActivity, int configId)
         {
             List<ConfigPositions> configPositionList = new List<ConfigPositions>();
             DatabaseHandler dbHandler = new DatabaseHandler();
@@ -42,17 +42,9 @@ namespace Activity_Simulator
                 Dimension = "Y",
                 Value = yPos
             };
-            if (targetRoom != currentRoom)
-            {
-                coordsList.Add(doorCoord);
-                coordsList.Add(xCoord);
-                coordsList.Add(yCoord);
-            }
-            else
-            {
-                coordsList.Add(xCoord);
-                coordsList.Add(yCoord);
-            }
+            coordsList.Add(doorCoord);
+            coordsList.Add(xCoord);
+            coordsList.Add(yCoord);
             return coordsList;
         }
     }

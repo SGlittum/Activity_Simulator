@@ -179,7 +179,38 @@ namespace Activity_Simulator
 
         private void btnNextActivity_Click(object sender, RoutedEventArgs e)
         {
-            viewModel.NextActivity();
+            try
+            {
+                viewModel.NextActivity();
+            }
+            catch(NullReferenceException)
+            {
+
+            }
+        }
+
+        private void rdbFastMode_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                viewModel.ActivateFastmode();
+            }
+            catch(NullReferenceException)
+            {
+
+            }
+        }
+
+        private void rdbRealTime_Checked(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                viewModel.DeactivateFastmode();
+            }
+            catch(NullReferenceException)
+            {
+
+            }
         }
     }
 }

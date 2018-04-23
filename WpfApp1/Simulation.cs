@@ -13,10 +13,13 @@ namespace Activity_Simulator
     {
         DatabaseHandler dbHandler = new DatabaseHandler();
         List<DataTypes> activityList = new List<DataTypes>();
+        List<ConfigPositions> configPositionList = new List<ConfigPositions>();
         Person person = new Person();
         SequenceHandler sequence = new SequenceHandler();
+        Thread animationCaller;
         static Random rnd = new Random();
         public Thread simulationCaller;
+        public Thread fastmodeCaller;
         private DateTime _currentTime;
         private DateTime _startTime;
         private DateTime _endTime;
@@ -27,6 +30,9 @@ namespace Activity_Simulator
         private double _personPositionX;
         private double _personPositionY;
         public bool SimulationSuspended = false;
+        bool animationThreadFinished = true;
+        bool fastmodeThreadFinished = true;
+        public bool fastMode;
         public DateTime CurrentTime
         {
             get
@@ -140,13 +146,23 @@ namespace Activity_Simulator
                 OnPropertyChanged("PersonPositionY");
             }
         }
-        public bool nextActivity;
+        public bool nextActivity = false;
         public int listIndex;
 
         public void StartSimulationThread()
         {
             simulationCaller = new Thread(new ThreadStart(StartSimulation));
             simulationCaller.Start();
+        }
+        public void ActivateFastMode()
+        {
+            fastmodeThreadFinished = false;
+            while(fastMode)
+            {
+                SkipToNextActivity();
+                Thread.Sleep(5000);
+            }
+            fastmodeThreadFinished = true;
         }
 
         public void StartSimulation()
@@ -155,27 +171,44 @@ namespace Activity_Simulator
             activityList = dbHandler.GetActivityData(DataSetIndex);
             SetInitialPosition(activityList[listIndex].Activity);
             CurrentTime = activityList[listIndex].StartTime.AddSeconds(-1);
-            while (1==1)
+            Room = activityList[listIndex].Room;
+            Activity = activityList[listIndex].Activity;
+            configPositionList = dbHandler.GetConfigPositions(1);
+            while (1 == 1)
             {
-                CurrentTime = CurrentTime.AddSeconds(1);
-                if(CurrentTime < activityList[listIndex+1].StartTime)
+                if (fastMode && fastmodeThreadFinished)
                 {
-                    if(nextActivity == true)
+                    fastmodeCaller = new Thread(new ThreadStart(ActivateFastMode));
+                    fastmodeCaller.Start();
+                }
+                for (int i = 0; i < configPositionList.Count; i++)
+                {
+                    if (configPositionList[i].Activity == Activity)
+                    {
+                        if(PersonPositionX != configPositionList[i].XPos && PersonPositionY != configPositionList[i].YPos && listIndex != 0 && animationThreadFinished)
+                        {
+                            animationCaller = new Thread(new ThreadStart(AnimateMovement));
+                            animationCaller.Start();
+                        }
+                    }
+                }
+                CurrentTime = CurrentTime.AddSeconds(1);
+                if (CurrentTime < activityList[listIndex + 1].StartTime)
+                {
+                    if (nextActivity == true)
                     {
                         SkipToNextActivity();
-                        Thread animationCaller = new Thread(new ThreadStart(AnimateMovement));
-                        animationCaller.Start();
-                        CurrentTime = activityList[listIndex].StartTime;
                     }
-                    StartTime = activityList[listIndex].StartTime;
-                    EndTime = activityList[listIndex].EndTime;
-                    Room = activityList[listIndex].Room;
-                    Activity = activityList[listIndex].Activity;
                 }
                 else
                 {
-                    Thread animationCaller = new Thread(new ThreadStart(AnimateMovement));
-                    animationCaller.Start();
+                    Room = activityList[listIndex].Room;
+                    Activity = activityList[listIndex].Activity;
+                    if (animationThreadFinished)
+                    {
+                        animationCaller = new Thread(new ThreadStart(AnimateMovement));
+                        animationCaller.Start();
+                    }
                     listIndex++;
                 }
                 if (SimulationSuspended == true)
@@ -195,7 +228,7 @@ namespace Activity_Simulator
                     {
                         Thread.Sleep((int)(Math.Round(1000 / SimulationSpeed)));
                     }
-                    catch(ThreadInterruptedException)
+                    catch (ThreadInterruptedException)
                     {
                         Thread.Sleep((int)(Math.Round(1000 / SimulationSpeed)));
                     }
@@ -209,6 +242,14 @@ namespace Activity_Simulator
                 if(activityList[i].Activity != activityList[listIndex].Activity)
                 {
                     listIndex = i;
+                    Room = activityList[listIndex].Room;
+                    Activity = activityList[listIndex].Activity;
+                    CurrentTime = activityList[listIndex].StartTime;
+                    if (animationThreadFinished)
+                    {
+                        animationCaller = new Thread(new ThreadStart(AnimateMovement));
+                        animationCaller.Start();
+                    }
                     nextActivity = false;
                     break;
                 }
@@ -218,7 +259,6 @@ namespace Activity_Simulator
         {
             double xPos = 0;
             double yPos = 0;
-            List<ConfigPositions> configPositionList = new List<ConfigPositions>();
             configPositionList = dbHandler.GetConfigPositions(1);
             for(int i=0;i<configPositionList.Count;i++)
             {
@@ -234,41 +274,40 @@ namespace Activity_Simulator
         }
         private void AnimateMovement()
         {
-            string currentRoom = activityList[listIndex - 1].Room;
-            string targetRoom = activityList[listIndex].Room;
+            animationThreadFinished = false;
             string targetActivity = activityList[listIndex].Activity;
             List<Coordinates> coordsList = new List<Coordinates>();
-            coordsList = person.MovePerson(currentRoom, targetRoom, targetActivity, 1);
-            for(int i=0;i<coordsList.Count;i++)
+            coordsList = person.MovePerson(targetActivity, 1);
+            for (int i = 0; i < coordsList.Count; i++)
             {
-                if(coordsList[i].Dimension == "X")
+                if (coordsList[i].Dimension == "X")
                 {
-                    while(PersonPositionX < coordsList[i].Value)
+                    while (PersonPositionX < coordsList[i].Value)
                     {
                         PersonPositionX++;
-                        Thread.Sleep((int)(Math.Round(10 / SimulationSpeed)));
+                        Thread.Sleep((int)(Math.Round(3 / SimulationSpeed)));
                     }
                     while (PersonPositionX > coordsList[i].Value)
                     {
                         PersonPositionX--;
-                        Thread.Sleep((int)(Math.Round(10 / SimulationSpeed)));
+                        Thread.Sleep((int)(Math.Round(3 / SimulationSpeed)));
                     }
                 }
-                if(coordsList[i].Dimension == "Y")
+                if (coordsList[i].Dimension == "Y")
                 {
-                    while(PersonPositionY < coordsList[i].Value)
+                    while (PersonPositionY < coordsList[i].Value)
                     {
                         PersonPositionY++;
-                        Thread.Sleep((int)(Math.Round(10 / SimulationSpeed)));
+                        Thread.Sleep((int)(Math.Round(3 / SimulationSpeed)));
                     }
-                    while(PersonPositionY > coordsList[i].Value)
+                    while (PersonPositionY > coordsList[i].Value)
                     {
                         PersonPositionY--;
-                        Thread.Sleep((int)(Math.Round(10 / SimulationSpeed)));
+                        Thread.Sleep((int)(Math.Round(3 / SimulationSpeed)));
                     }
                 }
             }
-
+            animationThreadFinished = true;
         }
         private DateTime _newStartDate;
         private DateTime _newEndDate;
