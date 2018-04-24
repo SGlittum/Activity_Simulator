@@ -41,12 +41,26 @@ namespace Activity_Simulator
         }
         public void PauseSimulation()
         {
-            simulation.SimulationSuspended = true;
+            try
+            {
+                simulation.SimulationSuspended = true;
+            }
+            catch(NullReferenceException)
+            {
+                ShowMessageBox("Simulator is not running", "Error!");
+            }
         }
         public void ResumeSimulation()
         {
-            simulation.SimulationSuspended = false;
-            simulation.simulationCaller.Interrupt();
+            try
+            {
+                simulation.SimulationSuspended = false;
+                simulation.simulationCaller.Interrupt();
+            }
+            catch(NullReferenceException)
+            {
+                ShowMessageBox("Simulator is not running", "Error!");
+            }
         }
         public void AddSequence()
         {

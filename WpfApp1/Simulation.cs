@@ -185,7 +185,7 @@ namespace Activity_Simulator
         public void ActivateFastMode()
         {
             fastmodeThreadFinished = false;
-            while(fastMode)
+            while(fastMode && !SimulationSuspended)
             {
                 SkipToNextActivity();
                 Thread.Sleep(5000);
@@ -205,6 +205,8 @@ namespace Activity_Simulator
             ShowNextActivity();
             while (1 == 1)
             {
+                Room = activityList[listIndex].Room;
+                Activity = activityList[listIndex].Activity;
                 if (fastMode && fastmodeThreadFinished)
                 {
                     fastmodeCaller = new Thread(new ThreadStart(ActivateFastMode));
@@ -216,6 +218,7 @@ namespace Activity_Simulator
                     {
                         if(PersonPositionX != configPositionList[i].XPos && PersonPositionY != configPositionList[i].YPos && listIndex != 0 && animationThreadFinished)
                         {
+                            animationThreadFinished = false;
                             animationCaller = new Thread(new ThreadStart(AnimateMovement));
                             animationCaller.Start();
                         }
@@ -235,6 +238,7 @@ namespace Activity_Simulator
                     Activity = activityList[listIndex].Activity;
                     if (animationThreadFinished)
                     {
+                        animationThreadFinished = false;
                         animationCaller = new Thread(new ThreadStart(AnimateMovement));
                         animationCaller.Start();
                     }
@@ -277,6 +281,7 @@ namespace Activity_Simulator
                     CurrentTime = activityList[listIndex].StartTime;
                     if (animationThreadFinished)
                     {
+                        animationThreadFinished = false;
                         animationCaller = new Thread(new ThreadStart(AnimateMovement));
                         animationCaller.Start();
                     }
@@ -317,7 +322,6 @@ namespace Activity_Simulator
         }
         private void AnimateMovement()
         {
-            animationThreadFinished = false;
             string targetActivity = activityList[listIndex].Activity;
             List<Coordinates> coordsList = new List<Coordinates>();
             coordsList = person.MovePerson(targetActivity, 1);
@@ -448,6 +452,8 @@ namespace Activity_Simulator
             else
             {
                 activityList = sequence.AddSequenceToList(activityList, listIndex, NewStartDate, NewEndDate, NewStartTime, NewEndTime, NewRoom, NewActivity);
+                ShowNextActivity();
+                ActivityViewModel.ShowMessageBox("Sequence added to list", "Success!");
             }
         }
         public void RandomizeSequence()

@@ -76,31 +76,46 @@ namespace Activity_Simulator
             {
                 csv = csv + string.Format("{0:yyyy/MM/dd hh:mm:ss};{1:yyyy/MM/dd hh:mm:ss};{2};{3};{4}" + "\n", Convert.ToString(activityList[i].StartTime), Convert.ToString(activityList[i].EndTime), Convert.ToString(activityList[i].Location), Convert.ToString(activityList[i].Room), Convert.ToString(activityList[i].Activity));
             }
-            System.IO.File.WriteAllText(string.Format(@"{0}"+"\\test.csv", folderName), csv);
+            try
+            {
+                System.IO.File.WriteAllText(string.Format(@"{0}" + "\\test.csv", folderName), csv);
+            }
+            catch(Exception ex)
+            {
+                ActivityViewModel.ShowMessageBox(ex.ToString(), "Error!");
+            }
         }
         public void ImportFromCSV(int previousDatasetIndex)
         {
             DatabaseHandler dbHandler = new DatabaseHandler();
             List<DataTypes> importedList = new List<DataTypes>();
             SelectFilePath();
-            using (var reader = new StreamReader(filePath))
+            try
             {
-                while(!reader.EndOfStream)
+                using (var reader = new StreamReader(filePath))
                 {
-                    DataTypes dataTypes = new DataTypes();
-                    var line = reader.ReadLine();
-                    var values = line.Split(';');
-                    dataTypes.StartTime = Convert.ToDateTime(values[0]);
-                    dataTypes.EndTime = Convert.ToDateTime(values[1]);
-                    dataTypes.Location = Convert.ToString(values[2]);
-                    dataTypes.Room = Convert.ToString(values[3]);
-                    dataTypes.Activity = Convert.ToString(values[4]);
+                    while (!reader.EndOfStream)
+                    {
+                        DataTypes dataTypes = new DataTypes();
+                        var line = reader.ReadLine();
+                        var values = line.Split(';');
+                        dataTypes.StartTime = Convert.ToDateTime(values[0]);
+                        dataTypes.EndTime = Convert.ToDateTime(values[1]);
+                        dataTypes.Location = Convert.ToString(values[2]);
+                        dataTypes.Room = Convert.ToString(values[3]);
+                        dataTypes.Activity = Convert.ToString(values[4]);
 
-                    importedList.Add(dataTypes);
+                        importedList.Add(dataTypes);
+                    }
                 }
+                dbHandler.SaveStartTimeAndEndTime(importedList, previousDatasetIndex);
+                dbHandler.SaveActivityData(importedList, previousDatasetIndex);
             }
-            dbHandler.SaveStartTimeAndEndTime(importedList, previousDatasetIndex);
-            dbHandler.SaveActivityData(importedList, previousDatasetIndex);
+            catch(Exception ex)
+            {
+                ActivityViewModel.ShowMessageBox(ex.ToString(), "Error!");
+            }
+
         }
     }
 }

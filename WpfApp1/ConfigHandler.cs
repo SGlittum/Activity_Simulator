@@ -174,41 +174,46 @@ namespace Activity_Simulator
             double doorsY;
 
             char[] separator = new char[] { ';' };
-
-            AddActivityLocations();
-
-            bedX = Convert.ToDouble(BedCoords.Split(separator)[0]);
-            bedY = Convert.ToDouble(BedCoords.Split(separator)[1]);
-            toiletX = Convert.ToDouble(ToiletCoords.Split(separator)[0]);
-            toiletY = Convert.ToDouble(ToiletCoords.Split(separator)[1]);
-            showerAreaX = Convert.ToDouble(ShowerCoords.Split(separator)[0]);
-            showerAreaY = Convert.ToDouble(ShowerCoords.Split(separator)[1]);
-            diningTableX = Convert.ToDouble(DiningCoords.Split(separator)[0]);
-            diningTableY = Convert.ToDouble(DiningCoords.Split(separator)[1]);
-            basinX = Convert.ToDouble(BasinCoords.Split(separator)[0]);
-            basinY = Convert.ToDouble(BasinCoords.Split(separator)[1]);
-            sofaX = Convert.ToDouble(SofaCoords.Split(separator)[0]);
-            sofaY = Convert.ToDouble(SofaCoords.Split(separator)[1]);
-            entranceX = Convert.ToDouble(EntranceCoords.Split(separator)[0]);
-            entranceY = Convert.ToDouble(EntranceCoords.Split(separator)[1]);
-            doorsY = Convert.ToDouble(DoorsCoords.Split(separator)[1]);
-            AddActivityCoords(bedX, nameof(bedX));
-            AddActivityCoords(bedY, nameof(bedY));
-            AddActivityCoords(toiletX, nameof(toiletX));
-            AddActivityCoords(toiletY, nameof(toiletY));
-            AddActivityCoords(showerAreaX, nameof(showerAreaX));
-            AddActivityCoords(showerAreaY, nameof(showerAreaY));
-            AddActivityCoords(diningTableX, nameof(diningTableX));
-            AddActivityCoords(diningTableY, nameof(diningTableY));
-            AddActivityCoords(basinX, nameof(basinX));
-            AddActivityCoords(basinY, nameof(basinY));
-            AddActivityCoords(sofaX, nameof(sofaX));
-            AddActivityCoords(sofaY, nameof(sofaY));
-            AddActivityCoords(entranceX, nameof(entranceX));
-            AddActivityCoords(entranceY, nameof(entranceY));
-            DatabaseHandler dbHandler = new DatabaseHandler();
-            dbHandler.SaveDoorsLocationToDatabase(doorsY, 1);
-            dbHandler.SaveConfigLocationToDatabase(configPositionList, 1);
+            if (string.IsNullOrEmpty(BedCoords) || string.IsNullOrEmpty(ToiletCoords) || string.IsNullOrEmpty(ShowerCoords) || string.IsNullOrEmpty(DiningCoords) || string.IsNullOrEmpty(BasinCoords) || string.IsNullOrEmpty(SofaCoords) || string.IsNullOrEmpty(EntranceCoords) || string.IsNullOrEmpty(DoorsCoords))
+            {
+                ActivityViewModel.ShowMessageBox("All coordinate textboxes must be filled", "Error!");
+            }
+            else
+            {
+                AddActivityLocations();
+                bedX = Convert.ToDouble(BedCoords.Split(separator)[0]);
+                bedY = Convert.ToDouble(BedCoords.Split(separator)[1]);
+                toiletX = Convert.ToDouble(ToiletCoords.Split(separator)[0]);
+                toiletY = Convert.ToDouble(ToiletCoords.Split(separator)[1]);
+                showerAreaX = Convert.ToDouble(ShowerCoords.Split(separator)[0]);
+                showerAreaY = Convert.ToDouble(ShowerCoords.Split(separator)[1]);
+                diningTableX = Convert.ToDouble(DiningCoords.Split(separator)[0]);
+                diningTableY = Convert.ToDouble(DiningCoords.Split(separator)[1]);
+                basinX = Convert.ToDouble(BasinCoords.Split(separator)[0]);
+                basinY = Convert.ToDouble(BasinCoords.Split(separator)[1]);
+                sofaX = Convert.ToDouble(SofaCoords.Split(separator)[0]);
+                sofaY = Convert.ToDouble(SofaCoords.Split(separator)[1]);
+                entranceX = Convert.ToDouble(EntranceCoords.Split(separator)[0]);
+                entranceY = Convert.ToDouble(EntranceCoords.Split(separator)[1]);
+                doorsY = Convert.ToDouble(DoorsCoords.Split(separator)[1]);
+                AddActivityCoords(bedX, nameof(bedX));
+                AddActivityCoords(bedY, nameof(bedY));
+                AddActivityCoords(toiletX, nameof(toiletX));
+                AddActivityCoords(toiletY, nameof(toiletY));
+                AddActivityCoords(showerAreaX, nameof(showerAreaX));
+                AddActivityCoords(showerAreaY, nameof(showerAreaY));
+                AddActivityCoords(diningTableX, nameof(diningTableX));
+                AddActivityCoords(diningTableY, nameof(diningTableY));
+                AddActivityCoords(basinX, nameof(basinX));
+                AddActivityCoords(basinY, nameof(basinY));
+                AddActivityCoords(sofaX, nameof(sofaX));
+                AddActivityCoords(sofaY, nameof(sofaY));
+                AddActivityCoords(entranceX, nameof(entranceX));
+                AddActivityCoords(entranceY, nameof(entranceY));
+                DatabaseHandler dbHandler = new DatabaseHandler();
+                dbHandler.SaveDoorsLocationToDatabase(doorsY, 1);
+                dbHandler.SaveConfigLocationToDatabase(configPositionList, 1);
+            }
         }
         public void AddActivityCoords(double position, string variableName)
         {

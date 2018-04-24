@@ -18,25 +18,32 @@ namespace Activity_Simulator
             List<DataTypes> activityDataList = new List<DataTypes>();
             SqlConnection con = new SqlConnection(connectionString);
             string selectSQL = String.Format("SELECT ActivityData.StartTime, ActivityData.EndTime, SensorLocation.Location, Room.Room, Activity.Activity FROM ActivityData LEFT JOIN SensorLocation ON ActivityData.SensorLocationId = SensorLocation.SensorLocationId INNER JOIN Room ON SensorLocation.RoomId = Room.RoomId LEFT JOIN Activity ON ActivityData.ActivityId = Activity.ActivityId WHERE ActivityData.DataSetIndex = {0}", DataSetIndex);
-            con.Open();
-            SqlCommand cmd = new SqlCommand(selectSQL, con);
-            SqlDataReader dr = cmd.ExecuteReader();
-            if(dr != null)
+            try
             {
-                while (dr.Read())
+                con.Open();
+                SqlCommand cmd = new SqlCommand(selectSQL, con);
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (dr != null)
                 {
-                    DataTypes dataTypes = new DataTypes();
+                    while (dr.Read())
+                    {
+                        DataTypes dataTypes = new DataTypes();
 
-                    dataTypes.StartTime = Convert.ToDateTime(dr["StartTime"]);
-                    dataTypes.EndTime = Convert.ToDateTime(dr["EndTime"]);
-                    dataTypes.Location = Convert.ToString(dr["Location"]);
-                    dataTypes.Room = Convert.ToString(dr["Room"]);
-                    dataTypes.Activity = Convert.ToString(dr["Activity"]);
+                        dataTypes.StartTime = Convert.ToDateTime(dr["StartTime"]);
+                        dataTypes.EndTime = Convert.ToDateTime(dr["EndTime"]);
+                        dataTypes.Location = Convert.ToString(dr["Location"]);
+                        dataTypes.Room = Convert.ToString(dr["Room"]);
+                        dataTypes.Activity = Convert.ToString(dr["Activity"]);
 
-                    activityDataList.Add(dataTypes);
+                        activityDataList.Add(dataTypes);
+                    }
                 }
+                con.Close();
             }
-            con.Close();
+            catch(Exception ex)
+            {
+                ActivityViewModel.ShowMessageBox(ex.ToString(), "Error!");
+            }
             return activityDataList;
         }
         public List<DataTypes> GetRoomActivityCombo()
@@ -45,22 +52,29 @@ namespace Activity_Simulator
             List<DataTypes> roomActivityList = new List<DataTypes>();
             SqlConnection con = new SqlConnection(connectionString);
             string selectSQL = "SELECT Room.Room, Activity.Activity FROM Room_Activity_Mapping INNER JOIN Room ON Room_Activity_Mapping.RoomId = Room.RoomId INNER JOIN Activity ON Room_Activity_Mapping.ActivityId = Activity.ActivityId";
-            con.Open();
-            SqlCommand cmd = new SqlCommand(selectSQL, con);
-            SqlDataReader dr = cmd.ExecuteReader();
-            if (dr != null)
+            try
             {
-                while (dr.Read())
+                con.Open();
+                SqlCommand cmd = new SqlCommand(selectSQL, con);
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (dr != null)
                 {
-                    DataTypes dataTypes = new DataTypes();
+                    while (dr.Read())
+                    {
+                        DataTypes dataTypes = new DataTypes();
 
-                    dataTypes.Room = Convert.ToString(dr["Room"]);
-                    dataTypes.Activity = Convert.ToString(dr["Activity"]);
+                        dataTypes.Room = Convert.ToString(dr["Room"]);
+                        dataTypes.Activity = Convert.ToString(dr["Activity"]);
 
-                    roomActivityList.Add(dataTypes);
+                        roomActivityList.Add(dataTypes);
+                    }
                 }
+                con.Close();
             }
-            con.Close();
+            catch(Exception ex)
+            {
+                ActivityViewModel.ShowMessageBox(ex.ToString(), "Error!");
+            }
             return roomActivityList;
         }
         public List<string> GetRoomList()
@@ -70,20 +84,27 @@ namespace Activity_Simulator
             List<string> roomList = new List<string>();
             SqlConnection con = new SqlConnection(connectionString);
             string selectSQL = "SELECT Room FROM Room";
-            con.Open();
-            SqlCommand cmd = new SqlCommand(selectSQL, con);
-            SqlDataReader dr = cmd.ExecuteReader();
-            if (dr != null)
+            try
             {
-                while (dr.Read())
+                con.Open();
+                SqlCommand cmd = new SqlCommand(selectSQL, con);
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (dr != null)
                 {
+                    while (dr.Read())
+                    {
 
-                    Room = Convert.ToString(dr["Room"]);
+                        Room = Convert.ToString(dr["Room"]);
 
-                    roomList.Add(Room);
+                        roomList.Add(Room);
+                    }
                 }
+                con.Close();
             }
-            con.Close();
+            catch(Exception ex)
+            {
+                ActivityViewModel.ShowMessageBox(ex.ToString(), "Error!");
+            }
             return roomList;
         }
         public List<string> GetActivityList()
@@ -93,20 +114,27 @@ namespace Activity_Simulator
             List<string> activityList = new List<string>();
             SqlConnection con = new SqlConnection(connectionString);
             string selectSQL = "SELECT Activity FROM Activity";
-            con.Open();
-            SqlCommand cmd = new SqlCommand(selectSQL, con);
-            SqlDataReader dr = cmd.ExecuteReader();
-            if (dr != null)
+            try
             {
-                while (dr.Read())
+                con.Open();
+                SqlCommand cmd = new SqlCommand(selectSQL, con);
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (dr != null)
                 {
+                    while (dr.Read())
+                    {
 
-                    Activity = Convert.ToString(dr["Activity"]);
+                        Activity = Convert.ToString(dr["Activity"]);
 
-                    activityList.Add(Activity);
+                        activityList.Add(Activity);
+                    }
                 }
+                con.Close();
             }
-            con.Close();
+            catch(Exception ex)
+            {
+                ActivityViewModel.ShowMessageBox(ex.ToString(), "Error!");
+            }
             return activityList;
         }
         public List<Dataset> GetDatasetInfo()
@@ -116,23 +144,30 @@ namespace Activity_Simulator
                 List<Dataset> datasetList = new List<Dataset>();
                 SqlConnection con = new SqlConnection(connectionString);
                 string selectSQL = "SELECT * FROM DataSet";
-                con.Open();
-                SqlCommand cmd = new SqlCommand(selectSQL, con);
-                SqlDataReader dr = cmd.ExecuteReader();
-                if (dr != null)
+                try
                 {
-                    while (dr.Read())
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand(selectSQL, con);
+                    SqlDataReader dr = cmd.ExecuteReader();
+                    if (dr != null)
                     {
-                        Dataset dataSet = new Dataset();
+                        while (dr.Read())
+                        {
+                            Dataset dataSet = new Dataset();
 
-                        dataSet.DataSetIndex = Convert.ToInt16(dr["DataSetIndex"]);
-                        dataSet.StartTime = Convert.ToDateTime(dr["StartTime"]);
-                        dataSet.EndTime = Convert.ToDateTime(dr["EndTime"]);
+                            dataSet.DataSetIndex = Convert.ToInt16(dr["DataSetIndex"]);
+                            dataSet.StartTime = Convert.ToDateTime(dr["StartTime"]);
+                            dataSet.EndTime = Convert.ToDateTime(dr["EndTime"]);
 
-                        datasetList.Add(dataSet);
+                            datasetList.Add(dataSet);
+                        }
                     }
+                    con.Close();
                 }
-                con.Close();
+                catch(Exception ex)
+                {
+                    ActivityViewModel.ShowMessageBox(ex.ToString(), "Error!");
+                }
                 return datasetList;
             }
         }
@@ -142,23 +177,30 @@ namespace Activity_Simulator
             List<ConfigPositions> configPositionList = new List<ConfigPositions>();
             SqlConnection con = new SqlConnection(connectionString);
             string selectSQL = String.Format("SELECT Activity.Activity, XPos, YPos FROM ActivityPosition INNER JOIN Activity ON ActivityPosition.ActivityId = Activity.ActivityId");
-            con.Open();
-            SqlCommand cmd = new SqlCommand(selectSQL, con);
-            SqlDataReader dr = cmd.ExecuteReader();
-            if (dr != null)
+            try
             {
-                while (dr.Read())
+                con.Open();
+                SqlCommand cmd = new SqlCommand(selectSQL, con);
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (dr != null)
                 {
-                    ConfigPositions configPosition = new ConfigPositions();
+                    while (dr.Read())
+                    {
+                        ConfigPositions configPosition = new ConfigPositions();
 
-                    configPosition.Activity = Convert.ToString(dr["Activity"]);
-                    configPosition.XPos = Convert.ToDouble(dr["XPos"]);
-                    configPosition.YPos = Convert.ToDouble(dr["YPos"]);
+                        configPosition.Activity = Convert.ToString(dr["Activity"]);
+                        configPosition.XPos = Convert.ToDouble(dr["XPos"]);
+                        configPosition.YPos = Convert.ToDouble(dr["YPos"]);
 
-                    configPositionList.Add(configPosition);
+                        configPositionList.Add(configPosition);
+                    }
                 }
+                con.Close();
             }
-            con.Close();
+            catch(Exception ex)
+            {
+                ActivityViewModel.ShowMessageBox(ex.ToString(), "Error!");
+            }
             return configPositionList;
         }
         public void SaveConfigLocationToDatabase(List<ConfigPositions> configPositionList, int configId)
@@ -175,6 +217,7 @@ namespace Activity_Simulator
                     cmd.ExecuteNonQuery();
                 }
                 con.Close();
+                ActivityViewModel.ShowMessageBox("Config locations saved to database", "Success!");
             }
             catch (Exception ex)
             {
@@ -229,6 +272,7 @@ namespace Activity_Simulator
                     cmd.ExecuteNonQuery();
                 }
                 con.Close();
+                ActivityViewModel.ShowMessageBox("Activity data saved to database", "Success!");
             }
             catch(Exception ex)
             {
