@@ -25,6 +25,8 @@ namespace Activity_Simulator
         private DateTime _endTime;
         private string _room;
         private string _activity;
+        private string _nextActivity;
+        private DateTime _nextActivityStartTime;
         private int _dataSetIndex;
         private double _simulationSpeed;
         private double _personPositionX;
@@ -95,6 +97,32 @@ namespace Activity_Simulator
             {
                 _activity = value;
                 OnPropertyChanged("Activity");
+            }
+        }
+        public string NextActivity
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_nextActivity))
+                    return "Unknown";
+                return _nextActivity;
+            }
+            set
+            {
+                _nextActivity = value;
+                OnPropertyChanged("NextActivity");
+            }
+        }
+        public DateTime NextActivityStartTime
+        {
+            get
+            {
+                return _nextActivityStartTime;
+            }
+            set
+            {
+                _nextActivityStartTime = value;
+                OnPropertyChanged("NextActivityStartTime");
             }
         }
         public int DataSetIndex
@@ -174,6 +202,7 @@ namespace Activity_Simulator
             Room = activityList[listIndex].Room;
             Activity = activityList[listIndex].Activity;
             configPositionList = dbHandler.GetConfigPositions(1);
+            ShowNextActivity();
             while (1 == 1)
             {
                 if (fastMode && fastmodeThreadFinished)
@@ -209,6 +238,7 @@ namespace Activity_Simulator
                         animationCaller = new Thread(new ThreadStart(AnimateMovement));
                         animationCaller.Start();
                     }
+                    ShowNextActivity();
                     listIndex++;
                 }
                 if (SimulationSuspended == true)
@@ -251,6 +281,19 @@ namespace Activity_Simulator
                         animationCaller.Start();
                     }
                     nextActivity = false;
+                    break;
+                }
+            }
+            ShowNextActivity();
+        }
+        private void ShowNextActivity()
+        {
+            for (int i = listIndex; i < activityList.Count; i++)
+            {
+                if (activityList[i].Activity != activityList[listIndex].Activity)
+                {
+                    NextActivity = activityList[i].Activity;
+                    NextActivityStartTime = activityList[i].StartTime;
                     break;
                 }
             }
@@ -442,12 +485,18 @@ namespace Activity_Simulator
                 {
                     listIndex = i;
                     CurrentTime = tempCurrentTime;
+                    Room = activityList[listIndex].Room;
+                    Activity = activityList[listIndex].Activity;
+                    SetInitialPosition(activityList[listIndex].Activity);
                     break;
                 }
                 else if(tempCurrentTime>=activityList[i].EndTime && tempCurrentTime<activityList[i+1].StartTime)
                 {
                     listIndex = i + 1;
                     CurrentTime = tempCurrentTime;
+                    Room = activityList[listIndex].Room;
+                    Activity = activityList[listIndex].Activity;
+                    SetInitialPosition(activityList[listIndex].Activity);
                     break;
                 }
                 else if(tempCurrentTime<activityList[i].StartTime)

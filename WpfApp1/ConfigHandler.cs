@@ -207,19 +207,8 @@ namespace Activity_Simulator
             AddActivityCoords(entranceX, nameof(entranceX));
             AddActivityCoords(entranceY, nameof(entranceY));
             DatabaseHandler dbHandler = new DatabaseHandler();
-            try
-            {
-                dbHandler.SaveConfigIdToDatabase(1);
-                dbHandler.SaveDoorsLocationToDatabase(doorsY, 1);
-                for (int i = 0; i < configPositionList.Count; i++)
-                {
-                    dbHandler.SaveConfigLocationToDatabase(configPositionList[i].Activity, configPositionList[i].ActivityLocation, configPositionList[i].XPos, configPositionList[i].YPos, 1);
-                }
-            }
-            catch(Exception ex)
-            {
-                ActivityViewModel.ShowMessageBox(ex.ToString(), "Error!");
-            }
+            dbHandler.SaveDoorsLocationToDatabase(doorsY, 1);
+            dbHandler.SaveConfigLocationToDatabase(configPositionList, 1);
         }
         public void AddActivityCoords(double position, string variableName)
         {

@@ -161,34 +161,42 @@ namespace Activity_Simulator
             con.Close();
             return configPositionList;
         }
-        public void SaveConfigIdToDatabase(int configId)
+        public void SaveConfigLocationToDatabase(List<ConfigPositions> configPositionList, int configId)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["DatabaseConnectionString"].ConnectionString;
             SqlConnection con = new SqlConnection(connectionString);
-            string insertSQL = string.Format("INSERT INTO Config (ConfigId) VALUES ({0})", configId);
-            con.Open();
-            SqlCommand cmd = new SqlCommand(insertSQL, con);
-            cmd.ExecuteNonQuery();
-            con.Close();
-        }
-        public void SaveConfigLocationToDatabase(string activity, string activityLocation, double xPos, double yPos, int configId)
-        {
-            string connectionString = ConfigurationManager.ConnectionStrings["DatabaseConnectionString"].ConnectionString;
-            SqlConnection con = new SqlConnection(connectionString);
-            string insertSQL = string.Format("INSERT INTO ActivityPosition (Position, XPos, YPos, ActivityId, ConfigId) VALUES ('{0}', {1}, {2}, (SELECT ActivityId FROM Activity WHERE Activity = '{3}'), {4})", activityLocation, Math.Round(xPos), Math.Round(yPos), activity, configId);
-            con.Open();
-            SqlCommand cmd = new SqlCommand(insertSQL, con);
-            cmd.ExecuteNonQuery();
-            con.Close();
+            try
+            {
+                con.Open();
+                for (int i = 0; i < configPositionList.Count; i++)
+                {
+                    string insertSQL = string.Format("UPDATE ActivityPosition SET XPos = {0}, YPos = {1} WHERE ActivityId = (SELECT ActivityId FROM Activity WHERE Activity = '{2}') AND ConfigId = {3}", Math.Round(configPositionList[i].XPos), Math.Round(configPositionList[i].YPos), configPositionList[i].Activity, configId);
+                    SqlCommand cmd = new SqlCommand(insertSQL, con);
+                    cmd.ExecuteNonQuery();
+                }
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                ActivityViewModel.ShowMessageBox(ex.ToString(), "Error");
+            }
         }
         public void SaveDoorsLocationToDatabase(double doorsY, int configId)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["DatabaseConnectionString"].ConnectionString;
             SqlConnection con = new SqlConnection(connectionString);
-            string insertSQL = string.Format("INSERT INTO DoorsPosition (VerticalPosition, ConfigId) VALUES ({0}, {1})", Math.Round(doorsY), configId);
-            con.Open();
-            SqlCommand cmd = new SqlCommand(insertSQL, con);
-            con.Close();
+            string insertSQL = string.Format("UPDATE DoorsPosition SET VerticalPosition = {0} WHERE ConfigId = {1}", Math.Round(doorsY), configId);
+            try
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand(insertSQL, con);
+                cmd.ExecuteNonQuery();
+                con.Close();
+            }
+            catch(Exception ex)
+            {
+                ActivityViewModel.ShowMessageBox(ex.ToString(), "Error!");
+            }
         }
         public void SaveStartTimeAndEndTime(List<DataTypes> importedList, int datasetIndex)
         {

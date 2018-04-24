@@ -33,14 +33,18 @@
                             <Slider HorizontalAlignment="Left" Value="{Binding Simulation.SimulationSpeed, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" Margin="10,226,0,0" VerticalAlignment="Top" Width="95" Height="19" Minimum="1" Maximum="1000" Background="#FF484141"/>
                             <TextBox HorizontalAlignment="Left" Height="23" Margin="10,291,0,0" TextWrapping="Wrap" Text="{Binding Simulation.ReplayTime, Mode=TwoWay}" VerticalAlignment="Top" Width="95"/>
                             <ComboBox x:Name="cmbDataset" HorizontalAlignment="Left" VerticalAlignment="Top" Width="95" Margin="10,27,0,0" Text="{Binding Simulation.DataSetIndex, Mode=OneWayToSource}" SelectionChanged="cmbDataset_SelectionChanged" SelectedIndex="0"/>
-                            <TextBox x:Name="txtDatasetStartTime" HorizontalAlignment="Left" Height="23" Margin="168,27,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+                            <TextBox x:Name="txtDatasetStartTime" HorizontalAlignment="Left" Height="23" Margin="168,27,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
                             <Label Content="Dataset" HorizontalAlignment="Left" Margin="10,1,0,0" VerticalAlignment="Top" Width="73"/>
                             <Label Content="Start Time" HorizontalAlignment="Left" Margin="168,1,0,0" VerticalAlignment="Top"/>
-                            <TextBox x:Name="txtDatasetEndTime" HorizontalAlignment="Left" Height="23" Margin="168,73,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+                            <TextBox x:Name="txtDatasetEndTime" HorizontalAlignment="Left" Height="23" Margin="168,73,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
                             <Label Content="End Time" HorizontalAlignment="Left" Margin="168,47,0,0" VerticalAlignment="Top"/>
                             <Button x:Name="btnNextActivity" Content="Next Activity" Margin="193,225,10,84" Click="btnNextActivity_Click"/>
                             <RadioButton x:Name="rdbRealTime" Content="Real Time" HorizontalAlignment="Left" Margin="10,152,0,0" VerticalAlignment="Top" IsChecked="True" GroupName="RealTime_FastMode" Checked="rdbRealTime_Checked"/>
                             <RadioButton x:Name="rdbFastMode" Content="Fast Mode" HorizontalAlignment="Left" Margin="193,152,0,0" VerticalAlignment="Top" GroupName="RealTime_FastMode" Checked="rdbFastMode_Checked"/>
+                            <TextBox HorizontalAlignment="Left" Height="23" Margin="10,124,0,0" TextWrapping="Wrap" Text="{Binding Simulation.NextActivity}" VerticalAlignment="Top" Width="120"/>
+                            <Label x:Name="lblNextActivity" Content="Next Activity" HorizontalAlignment="Left" Margin="10,101,0,0" VerticalAlignment="Top"/>
+                            <TextBox HorizontalAlignment="Left" Height="23" Margin="168,124,0,0" TextWrapping="Wrap" Text="{Binding Simulation.NextActivityStartTime, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" VerticalAlignment="Top" Width="120"/>
+                            <Label x:Name="lblNextActivity_Copy" Content="Start Time" HorizontalAlignment="Left" Margin="168,101,0,0" VerticalAlignment="Top"/>
                         </Grid>
                     </GroupBox>
                     <GroupBox Header="Import and Export" HorizontalAlignment="Left" Height="118" Margin="0,175,0,0" VerticalAlignment="Top" Width="308" BorderBrush="Black">

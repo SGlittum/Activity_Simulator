@@ -11,6 +11,37 @@ namespace Activity_Simulator
 
         public List<DataTypes> AddSequenceToList(List<DataTypes> activityList, int listIndex, DateTime StartDate, DateTime EndDate, DateTime StartTime, DateTime EndTime, string Room, string Activity)
         {
+            string location = "";
+            switch(Activity)
+            {
+                case "Sleeping":
+                    location = "Bed";
+                    break;
+                case "Toileting":
+                    location = "Toilet";
+                    break;
+                case "Showering":
+                    location = "Shower";
+                    break;
+                case "Breakfast":
+                    location = "Fridge";
+                    break;
+                case "Grooming":
+                    location = "Basin";
+                    break;
+                case "SpareTime/TV":
+                    location = "Seat";
+                    break;
+                case "Leaving":
+                    location = "MainDoor";
+                    break;
+                case "Lunch":
+                    location = "Fridge";
+                    break;
+                case "Snack":
+                    location = "Fridge";
+                    break;
+            }
             DateTime StartDateTime = StartDate.Date + StartTime.TimeOfDay;
             DateTime EndDateTime = EndDate.Date + EndTime.TimeOfDay;
             List<DataTypes> editedList = new List<DataTypes>();
@@ -22,12 +53,14 @@ namespace Activity_Simulator
                     dataTypes.StartTime = StartDateTime;
                     dataTypes.EndTime = EndDateTime;
                     dataTypes.Room = Room;
+                    dataTypes.Location = location;
                     dataTypes.Activity = Activity;
                     activityList.Insert(i+1, dataTypes);
                     DataTypes dataTypes2 = new DataTypes();
                     dataTypes2.StartTime = activityList[i+1].EndTime;
                     dataTypes2.EndTime = activityList[i].EndTime;
                     dataTypes2.Room = activityList[i].Room;
+                    dataTypes2.Location = activityList[i].Location;
                     dataTypes2.Activity = activityList[i].Activity;
                     activityList.Insert(i + 2, dataTypes2);
                     activityList[i].EndTime = activityList[i + 1].StartTime;
@@ -50,6 +83,7 @@ namespace Activity_Simulator
                     dataTypes.StartTime = StartDateTime;
                     dataTypes.EndTime = EndDateTime;
                     dataTypes.Room = Room;
+                    dataTypes.Location = location;
                     dataTypes.Activity = Activity;
                     activityList.Insert(i+1, dataTypes);
                     for (int j = i + 2; j < activityList.Count;)
