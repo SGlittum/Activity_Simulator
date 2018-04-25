@@ -12,18 +12,6 @@ namespace Activity_Simulator
     {
         private string filePath;
         private string folderName;
-        private string _exportFileName;
-        public string ExportFileName
-        {
-            get
-            {
-                return _exportFileName;
-            }
-            set
-            {
-                _exportFileName = value + ".csv";
-            }
-        }
         private void SelectFolderPath()
         {
             // Show the FolderBrowserDialog.
@@ -63,7 +51,7 @@ namespace Activity_Simulator
                 }
             }
         }
-        public void ExportToCSV(int dataSetIndex, List<DataTypes> activityList)
+        public void ExportToCSV(int dataSetIndex, List<DataTypes> activityList, string exportFileName)
         {
             if(!activityList.Any())
             {
@@ -78,7 +66,7 @@ namespace Activity_Simulator
             }
             try
             {
-                System.IO.File.WriteAllText(string.Format(@"{0}" + "\\test.csv", folderName), csv);
+                System.IO.File.WriteAllText(string.Format(@"{0}" + "\\{1}.csv", folderName, exportFileName), csv);
             }
             catch(Exception ex)
             {

@@ -516,10 +516,22 @@ namespace Activity_Simulator
                 }
             }
         }
+        string _exportFileName;
+        public string ExportFileName
+        {
+            get
+            {
+                return _exportFileName;
+            }
+            set
+            {
+                _exportFileName = value;
+            }
+        }
         public void ExportToCSV()
         {
             ImportExport export = new ImportExport();
-            export.ExportToCSV(DataSetIndex, activityList);
+            export.ExportToCSV(DataSetIndex, activityList, ExportFileName);
         }
         public DateTime GetFirstDateTime()
         {

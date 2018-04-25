@@ -51,7 +51,7 @@
                         <Grid HorizontalAlignment="Left" Height="100" Margin="0,0,-12.8,-4" VerticalAlignment="Top" Width="308">
                             <Button x:Name="btnImport" Content="Import" HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Width="95" Click="btnImport_Click"/>
                             <Button x:Name="btnExport" Content="Export" HorizontalAlignment="Left" Margin="0,71,0,0" VerticalAlignment="Top" Width="95" Click="btnExport_Click"/>
-                            <TextBox HorizontalAlignment="Left" Height="23" Margin="166,71,0,0" TextWrapping="Wrap" Text="{Binding ImportExport.ExportFileName}" VerticalAlignment="Top" Width="120"/>
+                            <TextBox HorizontalAlignment="Left" Height="23" Margin="166,71,0,0" TextWrapping="Wrap" Text="{Binding Simulation.ExportFileName}" VerticalAlignment="Top" Width="120"/>
                             <Label Content="Export Filename" HorizontalAlignment="Left" Margin="166,47,0,0" VerticalAlignment="Top" Width="99"/>
                         </Grid>
                     </GroupBox>
