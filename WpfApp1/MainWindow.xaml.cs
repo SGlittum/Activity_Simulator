@@ -52,8 +52,7 @@ namespace Activity_Simulator
             viewModel.StartSimulation();
             FillSequenceTimeTextboxes();
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void btnAddSequence_Click(object sender, RoutedEventArgs e)
         {
             viewModel.AddSequence();
         }
@@ -211,6 +210,11 @@ namespace Activity_Simulator
             {
 
             }
+        }
+
+        private void btnPreviousActivity_Click(object sender, RoutedEventArgs e)
+        {
+            viewModel.PreviousActivity();
         }
     }
 }

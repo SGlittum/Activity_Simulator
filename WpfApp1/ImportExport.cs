@@ -62,7 +62,10 @@ namespace Activity_Simulator
             string csv = "";
             for (int i = 0; i < activityList.Count; i++)
             {
-                csv = csv + string.Format("{0:yyyy/MM/dd hh:mm:ss};{1:yyyy/MM/dd hh:mm:ss};{2};{3};{4}" + "\n", Convert.ToString(activityList[i].StartTime), Convert.ToString(activityList[i].EndTime), Convert.ToString(activityList[i].Location), Convert.ToString(activityList[i].Room), Convert.ToString(activityList[i].Activity));
+                csv = csv + string.Format("{0:yyyy/MM/dd hh:mm:ss};{1:yyyy/MM/dd hh:mm:ss};{2};{3};{4}" + "\n",
+                Convert.ToString(activityList[i].StartTime), Convert.ToString(activityList[i].EndTime),
+                Convert.ToString(activityList[i].Location),
+                Convert.ToString(activityList[i].Room), Convert.ToString(activityList[i].Activity));
             }
             try
             {

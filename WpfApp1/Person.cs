@@ -7,15 +7,15 @@ using System.Threading.Tasks;
 
 namespace Activity_Simulator
 {
-    class Person : ObservableObject
+    class Person
     {
-
         public List<Coordinates> MovePerson(string targetActivity, int configId)
         {
             List<ConfigPositions> configPositionList = new List<ConfigPositions>();
             DatabaseHandler dbHandler = new DatabaseHandler();
             List<Coordinates> coordsList = new List<Coordinates>();
             configPositionList = dbHandler.GetConfigPositions(configId);
+            double doorVerticalPosition = dbHandler.GetDoorVerticalPosition(configId);
             double xPos = 0;
             double yPos = 0;
             for(int i=0;i<configPositionList.Count;i++)
@@ -30,7 +30,7 @@ namespace Activity_Simulator
             Coordinates doorCoord = new Coordinates
             {
                 Dimension = "Y",
-                Value = 315
+                Value = doorVerticalPosition
             };
             Coordinates xCoord = new Coordinates
             {

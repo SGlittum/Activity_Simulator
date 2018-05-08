@@ -16,7 +16,7 @@
                             <Label Content="Current Time" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
                             <Label Content="Current Room" HorizontalAlignment="Right" Margin="0,10,46,0" VerticalAlignment="Top" RenderTransformOrigin="0.038,0.633"/>
                             <TextBox x:Name="txtCurrentTime" Text="{Binding Simulation.CurrentTime, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" HorizontalAlignment="Left" Height="23" Margin="10,41,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
-                            <TextBox x:Name="txtCurrentRoom" Text="{Binding Simulation.Room, Mode=OneWay, diag:PresentationTraceSources.TraceLevel=High}" HorizontalAlignment="Right" Height="23" Margin="0,41,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
+                            <TextBox x:Name="txtCurrentRoom" Text="{Binding Simulation.Room, Mode=OneWay}" HorizontalAlignment="Right" Height="23" Margin="0,41,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" IsReadOnly="True"/>
                             <TextBox x:Name="txtCurrentActivity" Text="{Binding Simulation.Activity, Mode=OneWay}" HorizontalAlignment="Left" Height="23" Margin="10,0,0,27" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="120" IsReadOnly="True"/>
                             <Label Content="Current Activity" HorizontalAlignment="Left" Margin="10,70,0,0" VerticalAlignment="Top"/>
                             <TextBox x:Name="txtCurrentPatterSts" HorizontalAlignment="Right" Height="23" Margin="0,0,10,27" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="120" IsReadOnly="True"/>
@@ -27,24 +27,25 @@
                         <Grid HorizontalAlignment="Left" Height="329" Margin="0,0,-2.8,-12.2" VerticalAlignment="Top" Width="298">
                             <Button x:Name="btnStartSimulation" Content="Start Simulation" HorizontalAlignment="Left" Margin="10,77,0,0" VerticalAlignment="Top" Width="95" Click="btnStartSimulation_Click"/>
                             <Label Content="Replay Time [min]" HorizontalAlignment="Left" Margin="10,265,0,0" VerticalAlignment="Top" Width="109"/>
-                            <Button Content="Replay" HorizontalAlignment="Left" Margin="213,291,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_4"/>
+                            <Button Content="Replay" HorizontalAlignment="Left" Margin="110,291,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_4" Height="23"/>
                             <Button Content="Resume" HorizontalAlignment="Left" Margin="193,184,0,0" VerticalAlignment="Top" Width="95" Click="Button_Click_2"/>
                             <Button Content="Pause" HorizontalAlignment="Left" Margin="10,184,0,0" VerticalAlignment="Top" Width="95" Click="Button_Click_1"/>
                             <Slider HorizontalAlignment="Left" Value="{Binding Simulation.SimulationSpeed, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" Margin="10,226,0,0" VerticalAlignment="Top" Width="95" Height="19" Minimum="1" Maximum="1000" Background="#FF484141"/>
                             <TextBox HorizontalAlignment="Left" Height="23" Margin="10,291,0,0" TextWrapping="Wrap" Text="{Binding Simulation.ReplayTime, Mode=TwoWay}" VerticalAlignment="Top" Width="95"/>
                             <ComboBox x:Name="cmbDataset" HorizontalAlignment="Left" VerticalAlignment="Top" Width="95" Margin="10,27,0,0" Text="{Binding Simulation.DataSetIndex, Mode=OneWayToSource}" SelectionChanged="cmbDataset_SelectionChanged" SelectedIndex="0"/>
-                            <TextBox x:Name="txtDatasetStartTime" HorizontalAlignment="Left" Height="23" Margin="168,27,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+                            <TextBox IsReadOnly="True" x:Name="txtDatasetStartTime" HorizontalAlignment="Left" Height="23" Margin="168,27,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
                             <Label Content="Dataset" HorizontalAlignment="Left" Margin="10,1,0,0" VerticalAlignment="Top" Width="73"/>
                             <Label Content="Start Time" HorizontalAlignment="Left" Margin="168,1,0,0" VerticalAlignment="Top"/>
-                            <TextBox x:Name="txtDatasetEndTime" HorizontalAlignment="Left" Height="23" Margin="168,73,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+                            <TextBox IsReadOnly="True" x:Name="txtDatasetEndTime" HorizontalAlignment="Left" Height="23" Margin="168,73,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
                             <Label Content="End Time" HorizontalAlignment="Left" Margin="168,47,0,0" VerticalAlignment="Top"/>
                             <Button x:Name="btnNextActivity" Content="Next Activity" Margin="193,225,10,84" Click="btnNextActivity_Click"/>
                             <RadioButton x:Name="rdbRealTime" Content="Real Time" HorizontalAlignment="Left" Margin="10,152,0,0" VerticalAlignment="Top" IsChecked="True" GroupName="RealTime_FastMode" Checked="rdbRealTime_Checked"/>
                             <RadioButton x:Name="rdbFastMode" Content="Fast Mode" HorizontalAlignment="Left" Margin="193,152,0,0" VerticalAlignment="Top" GroupName="RealTime_FastMode" Checked="rdbFastMode_Checked"/>
-                            <TextBox HorizontalAlignment="Left" Height="23" Margin="10,124,0,0" TextWrapping="Wrap" Text="{Binding Simulation.NextActivity}" VerticalAlignment="Top" Width="120"/>
+                            <TextBox IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="10,124,0,0" TextWrapping="Wrap" Text="{Binding Simulation.NextActivity}" VerticalAlignment="Top" Width="120"/>
                             <Label x:Name="lblNextActivity" Content="Next Activity" HorizontalAlignment="Left" Margin="10,101,0,0" VerticalAlignment="Top"/>
-                            <TextBox HorizontalAlignment="Left" Height="23" Margin="168,124,0,0" TextWrapping="Wrap" Text="{Binding Simulation.NextActivityStartTime, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" VerticalAlignment="Top" Width="120"/>
+                            <TextBox IsReadOnly="True" HorizontalAlignment="Left" Height="23" Margin="168,124,0,0" TextWrapping="Wrap" Text="{Binding Simulation.NextActivityStartTime, StringFormat='{}{0:yyyy-MM-dd HH:mm:ss}'}" VerticalAlignment="Top" Width="120"/>
                             <Label x:Name="lblNextActivity_Copy" Content="Start Time" HorizontalAlignment="Left" Margin="168,101,0,0" VerticalAlignment="Top"/>
+                            <Button x:Name="btnPreviousActivity" Content="Previous Activity" HorizontalAlignment="Left" Margin="193,291,0,0" VerticalAlignment="Top" Width="95" Height="23" Click="btnPreviousActivity_Click"/>
                         </Grid>
                     </GroupBox>
                     <GroupBox Header="Import and Export" HorizontalAlignment="Left" Height="118" Margin="0,175,0,0" VerticalAlignment="Top" Width="308" BorderBrush="Black">
@@ -60,17 +61,17 @@
             <TabItem Header="Sequence Addition">
                 <Grid Background="#FFE5E5E5">
                     <Button Content="Randomize" HorizontalAlignment="Left" Margin="169,118,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_3"/>
-                    <TextBox x:Name="txtNewStartTime" HorizontalAlignment="Left" Height="23" Margin="83,36,0,0" TextWrapping="Wrap" Text="{Binding Simulation.NewStartTime, StringFormat='{}{0:hh:mm:ss}'}" VerticalAlignment="Top" Width="59"/>
-                    <TextBox x:Name="txtNewEndTime" HorizontalAlignment="Left" Height="23" Margin="242,36,0,0" TextWrapping="Wrap" Text="{Binding Simulation.NewEndTime, StringFormat='{}{0:hh:mm:ss}'}" VerticalAlignment="Top" Width="59"/>
-                    <Button Content="Confirm Selection" HorizontalAlignment="Left" Margin="10,118,0,0" VerticalAlignment="Top" Width="103" Click="Button_Click"/>
+                    <TextBox x:Name="txtNewStartTime" HorizontalAlignment="Left" Height="23" Margin="83,36,0,0" TextWrapping="Wrap" Text="{Binding Simulation.NewStartTime, StringFormat='{}{0:HH:mm:ss}'}" VerticalAlignment="Top" Width="59"/>
+                    <TextBox x:Name="txtNewEndTime" HorizontalAlignment="Left" Height="23" Margin="242,36,0,0" TextWrapping="Wrap" Text="{Binding Simulation.NewEndTime, StringFormat='{}{0:HH:mm:ss}'}" VerticalAlignment="Top" Width="59"/>
+                    <Button x:Name="btnAddSequence" Content="Confirm Selection" HorizontalAlignment="Left" Margin="10,118,0,0" VerticalAlignment="Top" Width="103" Click="btnAddSequence_Click"/>
                     <Label Content="Start Time" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
                     <Label Content="End Time" HorizontalAlignment="Left" Margin="169,10,0,0" VerticalAlignment="Top"/>
                     <Label Content="Room" HorizontalAlignment="Left" Margin="10,64,0,0" VerticalAlignment="Top"/>
                     <Label Content="Activity" HorizontalAlignment="Left" Margin="169,64,0,0" VerticalAlignment="Top"/>
                     <TextBox x:Name="txtNewStartDate" HorizontalAlignment="Left" Height="23" Margin="10,36,0,0" TextWrapping="Wrap" Text="{Binding Simulation.NewStartDate, StringFormat='{}{0:yyyy-MM-dd}'}" VerticalAlignment="Top" Width="68"/>
                     <TextBox x:Name="txtNewEndDate" HorizontalAlignment="Left" Height="23" Margin="169,36,0,0" TextWrapping="Wrap" Text="{Binding Simulation.NewEndDate, StringFormat='{}{0:yyyy-MM-dd}'}" VerticalAlignment="Top" Width="68"/>
-                    <ComboBox x:Name="cmbRoom" HorizontalAlignment="Left" Margin="10,90,0,0" VerticalAlignment="Top" Width="123" Text="{Binding Simulation.NewRoom, Mode=OneWayToSource}" SelectionChanged="cmbRoom_SelectionChanged"/>
-                    <ComboBox x:Name="cmbActivity" HorizontalAlignment="Left" Margin="169,90,0,0" Text="{Binding Simulation.NewActivity, Mode=OneWayToSource}" VerticalAlignment="Top" Width="123"/>
+                    <ComboBox x:Name="cmbRoom" HorizontalAlignment="Left" Margin="10,90,0,0" VerticalAlignment="Top" Width="123" Text="{Binding Simulation.NewRoom, Mode=TwoWay}" SelectionChanged="cmbRoom_SelectionChanged"/>
+                    <ComboBox x:Name="cmbActivity" HorizontalAlignment="Left" Margin="169,90,0,0" Text="{Binding Simulation.NewActivity, Mode=TwoWay}" VerticalAlignment="Top" Width="123"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Configuration">

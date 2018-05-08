@@ -203,6 +203,32 @@ namespace Activity_Simulator
             }
             return configPositionList;
         }
+        public double GetDoorVerticalPosition(int configId)
+        {
+            double doorVerticalPosition = 0;
+            string connectionString = ConfigurationManager.ConnectionStrings["DatabaseConnectionString"].ConnectionString;
+            SqlConnection con = new SqlConnection(connectionString);
+            string selectSQL = string.Format("SELECT VerticalPosition FROM DoorsPosition WHERE ConfigId = {0}", configId);
+            try
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand(selectSQL, con);
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (dr != null)
+                {
+                    while (dr.Read())
+                    {
+                        doorVerticalPosition = Convert.ToDouble(dr["VerticalPosition"]);
+                    }
+                }
+                con.Close();
+            }
+            catch (Exception ex)
+            {
+                ActivityViewModel.ShowMessageBox(ex.ToString(), "Error!");
+            }
+            return doorVerticalPosition;
+        }
         public void SaveConfigLocationToDatabase(List<ConfigPositions> configPositionList, int configId)
         {
             string connectionString = ConfigurationManager.ConnectionStrings["DatabaseConnectionString"].ConnectionString;

@@ -9,7 +9,7 @@ using System.Windows.Input;
 
 namespace Activity_Simulator
 {
-    class ActivityViewModel : ObservableObject
+    class ActivityViewModel
     {
         Simulation simulation = new Simulation();
         ConfigHandler configHandler = new ConfigHandler();
@@ -110,6 +110,10 @@ namespace Activity_Simulator
         public void NextActivity()
         {
             simulation.nextActivity = true;
+        }
+        public void PreviousActivity()
+        {
+            simulation.PreviousActivity();
         }
         public void Import(int previousDatasetIndex)
         {

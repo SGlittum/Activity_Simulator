@@ -34,6 +34,7 @@ namespace Activity_Simulator
         public bool SimulationSuspended = false;
         bool animationThreadFinished = true;
         bool fastmodeThreadFinished = true;
+        bool simulationThreadFinished = true;
         public bool fastMode;
         public DateTime CurrentTime
         {
@@ -179,8 +180,16 @@ namespace Activity_Simulator
 
         public void StartSimulationThread()
         {
-            simulationCaller = new Thread(new ThreadStart(StartSimulation));
-            simulationCaller.Start();
+            if (simulationThreadFinished)
+            {
+                simulationThreadFinished = false;
+                simulationCaller = new Thread(new ThreadStart(StartSimulation));
+                simulationCaller.Start();
+            }
+            else
+            {
+                ActivityViewModel.ShowMessageBox("Simulation already running", "Error!");
+            }
         }
         public void ActivateFastMode()
         {
@@ -203,7 +212,7 @@ namespace Activity_Simulator
             Activity = activityList[listIndex].Activity;
             configPositionList = dbHandler.GetConfigPositions(1);
             ShowNextActivity();
-            while (1 == 1)
+            while (listIndex <= activityList.Count-1)
             {
                 Room = activityList[listIndex].Room;
                 Activity = activityList[listIndex].Activity;
@@ -268,6 +277,7 @@ namespace Activity_Simulator
                     }
                 }
             }
+            simulationThreadFinished = true;
         }
         private void SkipToNextActivity()
         {
@@ -302,6 +312,28 @@ namespace Activity_Simulator
                     break;
                 }
             }
+        }
+        public void PreviousActivity()
+        {
+            for(int i=listIndex;i>=0;i--)
+            {
+                if (activityList[i].Activity != activityList[listIndex].Activity)
+                {
+                    listIndex = i;
+                    Room = activityList[listIndex].Room;
+                    Activity = activityList[listIndex].Activity;
+                    CurrentTime = activityList[listIndex].StartTime;
+                    if (animationThreadFinished)
+                    {
+                        animationThreadFinished = false;
+                        animationCaller = new Thread(new ThreadStart(AnimateMovement));
+                        animationCaller.Start();
+                    }
+                    nextActivity = false;
+                    break;
+                }
+            }
+            ShowNextActivity();
         }
         private void SetInitialPosition(string activity)
         {
@@ -451,21 +483,29 @@ namespace Activity_Simulator
             }
             else
             {
-                activityList = sequence.AddSequenceToList(activityList, listIndex, NewStartDate, NewEndDate, NewStartTime, NewEndTime, NewRoom, NewActivity);
+                activityList = sequence.AddSequenceToList(activityList, listIndex, NewStartDate, NewEndDate,
+                    NewStartTime, NewEndTime, NewRoom, NewActivity);
                 ShowNextActivity();
                 ActivityViewModel.ShowMessageBox("Sequence added to list", "Success!");
             }
         }
         public void RandomizeSequence()
         {
-            int randomIndex;
-            NewStartTime = activityList[listIndex + 1].StartTime;
-            NewEndTime = activityList[listIndex + 1].EndTime;
-            List<DataTypes> RoomActivityList = new List<DataTypes>();
-            RoomActivityList = dbHandler.GetRoomActivityCombo();
-            randomIndex = rnd.Next(RoomActivityList.Count);
-            NewRoom = RoomActivityList[randomIndex].Room;
-            NewActivity = RoomActivityList[randomIndex].Activity;
+            try
+            {
+                int randomIndex;
+                NewStartTime = CurrentTime.AddMinutes(rnd.Next(5,120));
+                NewEndTime = NewStartTime.AddMinutes(rnd.Next(5, 120));
+                List<DataTypes> RoomActivityList = new List<DataTypes>();
+                RoomActivityList = dbHandler.GetRoomActivityCombo();
+                randomIndex = rnd.Next(RoomActivityList.Count);
+                NewRoom = RoomActivityList[randomIndex].Room;
+                NewActivity = RoomActivityList[randomIndex].Activity;
+            }
+            catch(ArgumentOutOfRangeException)
+            {
+                ActivityViewModel.ShowMessageBox("Simulator must be running", "Error");
+            }
         }
         private int _replayTime;
         public int ReplayTime
@@ -484,7 +524,7 @@ namespace Activity_Simulator
         public void Replay()
         {
             DateTime tempCurrentTime = CurrentTime;
-            tempCurrentTime = tempCurrentTime.AddMinutes((double)(-ReplayTime));
+            tempCurrentTime = tempCurrentTime.AddMinutes(-ReplayTime);
             for(int i = 0;i<activityList.Count;)
             {
                 if(tempCurrentTime>=activityList[i].StartTime && tempCurrentTime<activityList[i].EndTime)
