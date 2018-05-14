@@ -14,7 +14,6 @@ namespace Activity_Simulator
         private string folderName;
         private void SelectFolderPath()
         {
-            // Show the FolderBrowserDialog.
             FolderBrowserDialog folderBrowserDialog1 = new FolderBrowserDialog();
             OpenFileDialog openFileDialog1 = new OpenFileDialog();
             DialogResult result = folderBrowserDialog1.ShowDialog();

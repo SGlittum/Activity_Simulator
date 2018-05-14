@@ -201,7 +201,6 @@ namespace Activity_Simulator
             }
             fastmodeThreadFinished = true;
         }
-
         public void StartSimulation()
         {
             listIndex = 0;
@@ -212,6 +211,7 @@ namespace Activity_Simulator
             Activity = activityList[listIndex].Activity;
             configPositionList = dbHandler.GetConfigPositions(1);
             ShowNextActivity();
+            //Simulation loop
             while (listIndex <= activityList.Count-1)
             {
                 Room = activityList[listIndex].Room;
@@ -354,6 +354,7 @@ namespace Activity_Simulator
         }
         private void AnimateMovement()
         {
+            const int animationSpeed = 3;
             string targetActivity = activityList[listIndex].Activity;
             List<Coordinates> coordsList = new List<Coordinates>();
             coordsList = person.MovePerson(targetActivity, 1);
@@ -364,12 +365,12 @@ namespace Activity_Simulator
                     while (PersonPositionX < coordsList[i].Value)
                     {
                         PersonPositionX++;
-                        Thread.Sleep((int)(Math.Round(3 / SimulationSpeed)));
+                        Thread.Sleep((int)(Math.Round(animationSpeed / SimulationSpeed)));
                     }
                     while (PersonPositionX > coordsList[i].Value)
                     {
                         PersonPositionX--;
-                        Thread.Sleep((int)(Math.Round(3 / SimulationSpeed)));
+                        Thread.Sleep((int)(Math.Round(animationSpeed / SimulationSpeed)));
                     }
                 }
                 if (coordsList[i].Dimension == "Y")
@@ -377,12 +378,12 @@ namespace Activity_Simulator
                     while (PersonPositionY < coordsList[i].Value)
                     {
                         PersonPositionY++;
-                        Thread.Sleep((int)(Math.Round(3 / SimulationSpeed)));
+                        Thread.Sleep((int)(Math.Round(animationSpeed / SimulationSpeed)));
                     }
                     while (PersonPositionY > coordsList[i].Value)
                     {
                         PersonPositionY--;
-                        Thread.Sleep((int)(Math.Round(3 / SimulationSpeed)));
+                        Thread.Sleep((int)(Math.Round(animationSpeed / SimulationSpeed)));
                     }
                 }
             }
@@ -489,6 +490,12 @@ namespace Activity_Simulator
                 ActivityViewModel.ShowMessageBox("Sequence added to list", "Success!");
             }
         }
+        /*
+         The method randomizes the sequence textboxes.
+         New start time: (current simulation time) + (random amount of minutes between 5 and 120)
+         New end time: (New start time) + (random amount of minutes between 5 and 120)
+         New room and activity: random selection from database where the new room and activity are compatible with each other
+         */
         public void RandomizeSequence()
         {
             try

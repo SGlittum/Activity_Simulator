@@ -62,7 +62,6 @@
     <Compile Include="ConfigPositions.cs" />
     <Compile Include="Coordinates.cs" />
     <Compile Include="Dataset.cs" />
-    <Compile Include="DoorCoordinates.cs" />
     <Compile Include="ImportExport.cs" />
     <Compile Include="ObservableObject.cs" />
     <Compile Include="Person.cs" />

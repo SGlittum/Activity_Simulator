@@ -9,6 +9,7 @@ namespace Activity_Simulator
 {
     class Person
     {
+        //Method that returns the next set of coordinates for the person
         public List<Coordinates> MovePerson(string targetActivity, int configId)
         {
             List<ConfigPositions> configPositionList = new List<ConfigPositions>();

@@ -113,6 +113,7 @@ namespace Activity_Simulator
                 OnPropertyChanged("DoorsCoords");
             }
         }
+        //Method to connect locations and activities in the config list
         public void AddActivityLocations()
         {
             DatabaseHandler dbHandler = new DatabaseHandler();
@@ -215,6 +216,10 @@ namespace Activity_Simulator
                 dbHandler.SaveConfigLocationToDatabase(configPositionList, 1);
             }
         }
+        /*
+         Method to add the correct coordinates to the correct location in the list
+         by crosschecking the parameter name and dimension with the one in the list
+         */
         public void AddActivityCoords(double position, string variableName)
         {
             for(int i=0;i<configPositionList.Count;i++)

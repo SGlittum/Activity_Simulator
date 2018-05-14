@@ -17,7 +17,11 @@ namespace Activity_Simulator
             string connectionString = ConfigurationManager.ConnectionStrings["DatabaseConnectionString"].ConnectionString;
             List<DataTypes> activityDataList = new List<DataTypes>();
             SqlConnection con = new SqlConnection(connectionString);
-            string selectSQL = String.Format("SELECT ActivityData.StartTime, ActivityData.EndTime, SensorLocation.Location, Room.Room, Activity.Activity FROM ActivityData LEFT JOIN SensorLocation ON ActivityData.SensorLocationId = SensorLocation.SensorLocationId INNER JOIN Room ON SensorLocation.RoomId = Room.RoomId LEFT JOIN Activity ON ActivityData.ActivityId = Activity.ActivityId WHERE ActivityData.DataSetIndex = {0}", DataSetIndex);
+            string selectSQL = String.Format("SELECT ActivityData.StartTime, ActivityData.EndTime, SensorLocation.Location, " +
+                "Room.Room, Activity.Activity FROM ActivityData LEFT JOIN SensorLocation " +
+                "ON ActivityData.SensorLocationId = SensorLocation.SensorLocationId INNER JOIN Room ON " +
+                "SensorLocation.RoomId = Room.RoomId LEFT JOIN Activity ON ActivityData.ActivityId = Activity.ActivityId " +
+                "WHERE ActivityData.DataSetIndex = {0}", DataSetIndex);
             try
             {
                 con.Open();

@@ -151,12 +151,15 @@
             </Label>
             <Label x:Name="lblKitchen_Copy5" Canvas.Left="537" Canvas.Top="305" Height="37" Width="54" Content="TV" FontSize="20" RenderTransformOrigin="0.5,0.5">
             </Label>
-            <Label x:Name="lblKitchen_Copy6" Canvas.Left="961" Canvas.Top="220" Height="37" Width="54" Content="Toilet" FontSize="20" RenderTransformOrigin="0.5,0.5"/>
+            <Label x:Name="lblKitchen_Copy6" Canvas.Left="961" Canvas.Top="220" Height="37" Width="65" Content="Toilet" FontSize="20" RenderTransformOrigin="0.5,0.5"/>
             <Label x:Name="lblKitchen_Copy7" Canvas.Left="17" Canvas.Top="135" Height="37" Width="54" Content="Sink" FontSize="20" RenderTransformOrigin="-0.187,0.578"/>
             <Label x:Name="lblKitchen_Copy8" Canvas.Left="17" Canvas.Top="399" Height="37" Width="69" Content="Stove" FontSize="20" RenderTransformOrigin="0.5,0.5"/>
             <Label x:Name="lblKitchen_Copy9" Canvas.Left="497" Canvas.Top="73" Height="37" Width="54" Content="Sofa" FontSize="20" RenderTransformOrigin="0.5,0.5"/>
             <Rectangle x:Name="BathroomShower" Fill="#FFB3EBE8" Height="124" Width="185" HorizontalAlignment="Left" VerticalAlignment="Top" Canvas.Left="861" Canvas.Top="536"/>
             <Label x:Name="lblKitchen_Copy10" Canvas.Left="894" Canvas.Top="583" Height="37" Width="131" Content="Shower Area" FontSize="20" RenderTransformOrigin="0.5,0.5"/>
+            <Rectangle Fill="Silver" Height="88" Width="31" Canvas.Top="386" Canvas.Left="865" Stroke="Black"/>
+            <Label x:Name="lblKitchen_Copy11" Canvas.Left="156" Canvas.Top="238" Height="37" Width="148" Content="Dining Table" FontSize="20" RenderTransformOrigin="0.5,0.5"/>
+            <Label x:Name="lblKitchen_Copy12" Canvas.Left="865" Canvas.Top="479" Height="37" Width="70" Content="Basin" FontSize="20" RenderTransformOrigin="0.5,0.5"/>
             <Ellipse x:Name="ellipsePerson" Fill="DarkGreen" Height="34" Width="34" RenderTransformOrigin="0.431,0.565" Canvas.Left="{Binding Simulation.PersonPositionX}" Canvas.Top="{Binding Simulation.PersonPositionY}"/>
         </Canvas>
     </Grid>
